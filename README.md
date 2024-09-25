@@ -11,7 +11,7 @@ More information about linux/ia64 on http://epic-linux.org/.
 
 ## Description ##
 
-Here you'll find the changes made to [the original Slackware build scripts](https://mirrors.slackware.com/slackware/slackware64-current/source/) to build under the **ia64**architecture. Currently incomplete, but will grow with each existing package upgraded and when I see fit.
+Here you'll find the changes made to [the original Slackware build scripts](https://mirrors.slackware.com/slackware/slackware64-current/source/) to build under the **ia64** architecture. Currently incomplete, but will grow with each existing package upgraded and when I see fit.
 
 ## Patched sources ##
 
