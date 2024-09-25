@@ -1,0 +1,15 @@
+diff --git a/nano.SlackBuild b/nano.SlackBuild
+index 385e0c0..7963455 100644
+--- a/nano.SlackBuild
++++ b/nano.SlackBuild
+@@ -59,6 +59,10 @@ elif [ "$ARCH" = "arm" ]; then
+   SLKCFLAGS="-O2 -march=armv5te"
+   LIBDIRSUFFIX=""
+   ARCHQUADLET="-gnueabi"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
++  ARCHQUADLET=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""

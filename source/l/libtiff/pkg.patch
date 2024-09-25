@@ -1,0 +1,14 @@
+diff --git a/libtiff.SlackBuild b/libtiff.SlackBuild
+index 4ef8eb2..1934d35 100644
+--- a/libtiff.SlackBuild
++++ b/libtiff.SlackBuild
+@@ -58,6 +58,9 @@ elif [ "$ARCH" = "s390" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""

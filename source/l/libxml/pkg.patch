@@ -1,0 +1,14 @@
+diff --git a/libxml2.SlackBuild b/libxml2.SlackBuild
+index 48a4545..c340fa0 100644
+--- a/libxml2.SlackBuild
++++ b/libxml2.SlackBuild
+@@ -52,6 +52,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""

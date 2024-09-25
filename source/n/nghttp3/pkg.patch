@@ -1,0 +1,28 @@
+diff --git a/nghttp3.SlackBuild b/nghttp3.SlackBuild
+index 9c1bcf5..e8cb098 100644
+--- a/nghttp3.SlackBuild
++++ b/nghttp3.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -94,6 +97,13 @@ cd cmake-build
+   make install DESTDIR=$PKG || exit 1
+ cd ..
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
++if [ "$ARCH" = "ia64" ]; then
++  if [ -e $PKG/usr/lib64 ]; then
++    mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++  fi
++fi
++
+ # Strip binaries:
+ find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+ 

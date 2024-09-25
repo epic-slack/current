@@ -1,0 +1,15 @@
+diff --git a/grub.SlackBuild b/grub.SlackBuild
+index eea2d37..6f40f7b 100644
+--- a/grub.SlackBuild
++++ b/grub.SlackBuild
+@@ -63,6 +63,10 @@ elif [ "$ARCH" = "x86_64" ]; then
+   EFI32_FLAGS=" --with-platform=efi --target=i386 --program-prefix= "
+   EFI_FLAGS=" --with-platform=efi --target=x86_64 --program-prefix= "
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS=""
++  EFI_FLAGS=" --with-platform=efi --target=ia64 --program-prefix= "
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS=""
+   LIBDIRSUFFIX=""

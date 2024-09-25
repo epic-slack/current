@@ -1,0 +1,9 @@
+diff --git a/slack-desc b/slack-desc
+index c2bb5c9..a79ca0e 100644
+--- a/slack-desc
++++ b/slack-desc
+@@ -17,4 +17,3 @@ python-sphinx: C/C++ is supported as well, and more languages are planned.
+ python-sphinx:
+ python-sphinx: Homepage: http://www.sphinx-doc.org/
+ python-sphinx:
+-

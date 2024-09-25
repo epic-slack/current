@@ -1,0 +1,14 @@
+diff --git a/glibc-zoneinfo.SlackBuild b/glibc-zoneinfo.SlackBuild
+index 3fbf15e..4ca46e3 100644
+--- a/glibc-zoneinfo.SlackBuild
++++ b/glibc-zoneinfo.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-DHAVE_SNPRINTF=1 -O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-DHAVE_SNPRINTF=1 -O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-DHAVE_SNPRINTF=1 -O2"
+   LIBDIRSUFFIX=""

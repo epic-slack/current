@@ -1,0 +1,30 @@
+diff --git a/python3.SlackBuild b/python3.SlackBuild
+index 89647f3..acc6bd9 100644
+--- a/python3.SlackBuild
++++ b/python3.SlackBuild
+@@ -70,6 +70,9 @@ elif [ "$ARCH" = "armel" ]; then
+   LIBDIRSUFFIX=""
+ elif [ "$ARCH" = "aarch64" ]; then
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2"
++  LIBDIRSUFFIX=""
+ else
+   LIBDIRSUFFIX=""
+ fi
+@@ -98,6 +101,7 @@ find -L . \
+  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
+   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \+
+ 
++OPT="$SLKCFLAGS" \
+ ./configure \
+   --prefix=/usr \
+   --libdir=/usr/lib${LIBDIRSUFFIX} \
+@@ -108,6 +112,7 @@ find -L . \
+   --enable-shared \
+   --with-computed-gotos \
+   --enable-optimizations \
++  --with-lto=no \
+   --with-dbmliborder=gdbm:ndbm \
+   --with-system-expat \
+   --with-system-ffi \

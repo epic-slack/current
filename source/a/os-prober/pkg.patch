@@ -1,0 +1,14 @@
+diff --git a/os-prober.SlackBuild b/os-prober.SlackBuild
+index c49131e..7333f2d 100644
+--- a/os-prober.SlackBuild
++++ b/os-prober.SlackBuild
+@@ -51,6 +51,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""

@@ -1,0 +1,14 @@
+diff --git a/libjpeg-turbo.SlackBuild b/libjpeg-turbo.SlackBuild
+index 8fe3aed..44c80f2 100644
+--- a/libjpeg-turbo.SlackBuild
++++ b/libjpeg-turbo.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
