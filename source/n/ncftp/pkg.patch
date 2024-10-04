@@ -1,0 +1,13 @@
+diff --git a/ncftp.SlackBuild b/ncftp.SlackBuild
+index 2daf6f2..3b9309d 100644
+--- a/ncftp.SlackBuild
++++ b/ncftp.SlackBuild
+@@ -52,6 +52,8 @@ elif [ "$ARCH" = "s390" ]; then
+   SLKCFLAGS="-O2 -fcommon -std=gnu90"
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -fPIC -fcommon -std=gnu90"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC -fcommon -std=gnu90"
+ else
+   SLKCFLAGS="-O2 -fcommon -std=gnu90"
+ fi

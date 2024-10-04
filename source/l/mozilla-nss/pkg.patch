@@ -1,0 +1,52 @@
+diff --git a/mozilla-nss.SlackBuild b/mozilla-nss.SlackBuild
+index 569ecf3..049f4be 100644
+--- a/mozilla-nss.SlackBuild
++++ b/mozilla-nss.SlackBuild
+@@ -56,6 +56,10 @@ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
+   export USE_64=1
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
++  export USE_64=1
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -80,6 +84,9 @@ mv nspr*/nspr .
+ ## -Werror is problematic with gcc7:
+ #sed -i "s|\ -Werror| |" nss/coreconf/Werror.mk || exit 1
+ 
++## -Werror is problematic on ia64:
++sed -i "/^.*print('-Werror')$/d" nss/coreconf/werror.py || exit 1
++
+ # Make sure ownerships and permissions are sane:
+ chown -R root:root .
+ find . \
+@@ -88,6 +95,26 @@ find . \
+   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+   -exec chmod 644 {} \+
+ 
++if [ "$ARCH" = "ia64" ]; then
++cat > nss_use_64-ia64.patch <<EOF
++diff --git a/nss/coreconf/config.gypi b/nss/coreconf/config.gypi
++index b9403a9..e2a5e2c 100644
++--- a/nss/coreconf/config.gypi
+++++ b/nss/coreconf/config.gypi
++@@ -229,7 +229,7 @@
++           },
++         },
++       }],
++-      [ 'target_arch=="arm64" or target_arch=="aarch64" or target_arch=="sparc64" or target_arch=="ppc64" or target_arch=="ppc64le" or target_arch=="s390x" or target_arch=="mips64" or target_arch=="e2k" or target_arch=="riscv64" or target_arch=="loongarch64"', {
+++      [ 'target_arch=="arm64" or target_arch=="aarch64" or target_arch=="sparc64" or target_arch=="ppc64" or target_arch=="ppc64le" or target_arch=="s390x" or target_arch=="mips64" or target_arch=="e2k" or target_arch=="riscv64" or target_arch=="loongarch64" or target_arch=="ia64"', {
++         'defines': [
++           'NSS_USE_64',
++         ],
++
++EOF
++patch -p1 < nss_use_64-ia64.patch && rm nss_use_64-ia64.patch
++fi
++
+ cd nss
+ ./build.sh -v $NUMJOBS --opt --system-sqlite --enable-libpkix --disable-tests
+ cd -

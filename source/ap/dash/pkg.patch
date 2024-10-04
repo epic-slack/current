@@ -1,0 +1,14 @@
+diff --git a/dash.SlackBuild b/dash.SlackBuild
+index a99ed1a..16238c1 100644
+--- a/dash.SlackBuild
++++ b/dash.SlackBuild
+@@ -62,6 +62,9 @@ elif [ "$ARCH" = "x86_64" ]; then
+ elif [ "$ARCH" = "armv7hl" ]; then
+   SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+   LIBDIRSUFFIX=""
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
