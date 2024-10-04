@@ -1,0 +1,41 @@
+diff --git a/rpm.SlackBuild b/rpm.SlackBuild
+index 48ed1fb..9074284 100644
+--- a/rpm.SlackBuild
++++ b/rpm.SlackBuild
+@@ -63,6 +63,9 @@ elif [ "$ARCH" = "arm" ]; then
+ elif [ "$ARCH" = "armel" ]; then
+   SLKCFLAGS="-O2 -march=armv4t"
+   LIBDIRSUFFIX=""
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ fi
+ 
+ if [ -x /usr/bin/rpm ]; then
+@@ -115,6 +118,17 @@ cd cmake-build
+   make install DESTDIR=$PKG || exit 1
+ cd ..
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
++if [ "$ARCH" = "ia64" ]; then
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
++  fi
++fi
++
+ if [ -d $PKG/etc/dbus-1 ]; then
+   # Put this in the system directory:
+   mkdir -p $PKG/usr/share
+@@ -150,7 +164,7 @@ zcat $CWD/Packages.gz > $PKG/var/lib/rpm/tmp/Packages
+ mkdir -p $PKG/usr/doc/rpm-$VERSION
+ mv $PKG/usr/share/doc/rpm/* $PKG/usr/doc/rpm-$VERSION
+ rmdir $PKG/usr/share/doc/rpm
+-mrdir $PKG/usr/share/doc
++rmdir $PKG/usr/share/doc
+ rm -rf $PKG/usr/doc/rpm-$VERSION/API
+ cp -a \
+   CONTRIBUTING* COPYING* CREDITS* INSTALL* README* docs/manual \

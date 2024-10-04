@@ -12,14 +12,18 @@ index 9c1bcf5..e8cb098 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -94,6 +97,13 @@ cd cmake-build
+@@ -94,6 +97,17 @@ cd cmake-build
    make install DESTDIR=$PKG || exit 1
  cd ..
  
 +# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
 +if [ "$ARCH" = "ia64" ]; then
-+  if [ -e $PKG/usr/lib64 ]; then
-+    mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
 +  fi
 +fi
 +
