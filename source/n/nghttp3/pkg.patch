@@ -1,5 +1,5 @@
 diff --git a/nghttp3.SlackBuild b/nghttp3.SlackBuild
-index 9c1bcf5..e8cb098 100644
+index 782ad82..1e4e95c 100644
 --- a/nghttp3.SlackBuild
 +++ b/nghttp3.SlackBuild
 @@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,7 +12,7 @@ index 9c1bcf5..e8cb098 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -94,6 +97,17 @@ cd cmake-build
+@@ -97,6 +100,17 @@ cd cmake-build
    make install DESTDIR=$PKG || exit 1
  cd ..
  

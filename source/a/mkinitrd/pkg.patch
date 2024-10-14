@@ -1,0 +1,32 @@
+diff --git a/mkinitrd.SlackBuild b/mkinitrd.SlackBuild
+index ff61747..4a0d9c7 100644
+--- a/mkinitrd.SlackBuild
++++ b/mkinitrd.SlackBuild
+@@ -69,6 +69,27 @@ if [ -d $CWD/fixes-$BB ]; then
+   done
+ fi
+ 
++if [ "$ARCH" = "ia64" ]; then
++cat > no-sha-hw-accel-ia64.patch <<EOF
++diff --git a/libbb/hash_md5_sha.c b/libb/hash_md5_sha.c
++index 57a8014..75a61c3 100644
++--- a/libbb/hash_md5_sha.c
+++++ b/libbb/hash_md5_sha.c
++@@ -1313,7 +1313,9 @@ unsigned FAST_FUNC sha1_end(sha1_ctx_t *ctx, void *resbuf)
++ 	hash_size = 8;
++ 	if (ctx->process_block == sha1_process_block64
++ #if ENABLE_SHA1_HWACCEL
+++# if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
++ 	 || ctx->process_block == sha1_process_block64_shaNI
+++# endif
++ #endif
++ 	) {
++ 		hash_size = 5;
++
++EOF
++patch -p1 < no-sha-hw-accel-ia64.patch && rm no-sha-hw-accel-ia64.patch
++fi
++
+ chown -R root:root .
+ cat $CWD/busybox-dot-config > .config
+ make oldconfig || exit 1

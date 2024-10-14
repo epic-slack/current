@@ -1,18 +1,18 @@
 diff --git a/rpm.SlackBuild b/rpm.SlackBuild
-index 48ed1fb..9074284 100644
+index 31f8971..f7b08e2 100644
 --- a/rpm.SlackBuild
 +++ b/rpm.SlackBuild
-@@ -63,6 +63,9 @@ elif [ "$ARCH" = "arm" ]; then
- elif [ "$ARCH" = "armel" ]; then
-   SLKCFLAGS="-O2 -march=armv4t"
-   LIBDIRSUFFIX=""
+@@ -57,6 +57,9 @@ elif [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
 +elif [ "$ARCH" = "ia64" ]; then
 +  SLKCFLAGS="-O2 -fPIC"
 +  LIBDIRSUFFIX=""
- fi
- 
- if [ -x /usr/bin/rpm ]; then
-@@ -115,6 +118,17 @@ cd cmake-build
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -113,6 +116,17 @@ cd cmake-build
    make install DESTDIR=$PKG || exit 1
  cd ..
  
@@ -30,7 +30,7 @@ index 48ed1fb..9074284 100644
  if [ -d $PKG/etc/dbus-1 ]; then
    # Put this in the system directory:
    mkdir -p $PKG/usr/share
-@@ -150,7 +164,7 @@ zcat $CWD/Packages.gz > $PKG/var/lib/rpm/tmp/Packages
+@@ -148,7 +162,7 @@ zcat $CWD/Packages.gz > $PKG/var/lib/rpm/tmp/Packages
  mkdir -p $PKG/usr/doc/rpm-$VERSION
  mv $PKG/usr/share/doc/rpm/* $PKG/usr/doc/rpm-$VERSION
  rmdir $PKG/usr/share/doc/rpm
