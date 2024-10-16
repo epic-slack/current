@@ -1,0 +1,14 @@
+diff --git a/sysvinit-scripts.SlackBuild b/sysvinit-scripts.SlackBuild
+index 140fe59..154d6f5 100644
+--- a/sysvinit-scripts.SlackBuild
++++ b/sysvinit-scripts.SlackBuild
+@@ -41,6 +41,9 @@ PKG=$TMP/package-sysvinit-scripts
+ rm -rf $PKG
+ mkdir -p $TMP $PKG
+ 
++# Apply patch to enable NFS root FS:
++zcat $CWD/patches/enable-nfs-root.patch.gz | patch -p1 --verbose || exit 1
++
+ # Install Slackware scripts and config files from $CWD/scripts/:
+ mkdir -p $PKG/etc/rc.d
+ for file in rc.{4,6,K,M,S} rc.cpufreq rc.local rc.loop rc.sysvinit rc.modules rc.modules.local ; do
