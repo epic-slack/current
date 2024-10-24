@@ -1,0 +1,41 @@
+diff --git a/protobuf.SlackBuild b/protobuf.SlackBuild
+index 574d77f..733750c 100644
+--- a/protobuf.SlackBuild
++++ b/protobuf.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -96,6 +99,17 @@ cd cmake-build
+   make install DESTDIR=$PKG || exit 1
+ cd ..
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
++if [ "$ARCH" = "ia64" ]; then
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
++  fi
++fi
++
+ # Don't use the python bindings included in the main tarball, as they are
+ # incomplete without further processing. Use the ones fetched from 
+ # https://pypi.python.org/pypi/protobuf that are ready to go:
+diff --git a/slack-desc b/slack-desc
+index de212c1..e6e6fe5 100644
+--- a/slack-desc
++++ b/slack-desc
+@@ -17,4 +17,3 @@ protobuf:
+ protobuf:
+ protobuf:
+ protobuf:
+-
