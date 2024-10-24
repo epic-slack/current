@@ -1,0 +1,36 @@
+diff --git a/elilo.SlackBuild b/elilo.SlackBuild
+index cb298cb..c8f14fc 100644
+--- a/elilo.SlackBuild
++++ b/elilo.SlackBuild
+@@ -43,6 +43,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -136,12 +139,15 @@ cd ..
+ 
+ # Install EFI bootloaders in /boot:
+ mkdir $PKG/boot
+-# The ia32 version is pretty much useless, since 32-bit UEFI is nowhere to be
+-# found.  Maybe it would help old 32-bit Intel Macs though?
+-cp -a elilo*ia32.efi $PKG/boot/elilo-ia32.efi
+-# Itanium binary isn't needed here.
+-#cp -a elilo*ia64.efi $PKG/boot/elilo-ia64.efi
+-cp -a elilo*x86_64.efi $PKG/boot/elilo-x86_64.efi
++
++if [ "$ARCH" = "ia64" ]; then
++  cp -a elilo*ia64.efi $PKG/boot/elilo-ia64.efi
++else
++  # The ia32 version is pretty much useless, since 32-bit UEFI is nowhere to be
++  # found.  Maybe it would help old 32-bit Intel Macs though?
++  cp -a elilo*ia32.efi $PKG/boot/elilo-ia32.efi
++  cp -a elilo*x86_64.efi $PKG/boot/elilo-x86_64.efi
++fi
+ 
+ mkdir -p $PKG/install
+ cat $CWD/slack-desc > $PKG/install/slack-desc

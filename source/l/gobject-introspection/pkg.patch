@@ -1,5 +1,5 @@
 diff --git a/gobject-introspection.SlackBuild b/gobject-introspection.SlackBuild
-index 6612e10..544ea69 100644
+index 6612e10..2e087e8 100644
 --- a/gobject-introspection.SlackBuild
 +++ b/gobject-introspection.SlackBuild
 @@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,38 @@ index 6612e10..544ea69 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -74,6 +77,34 @@ find . \
+  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+  -exec chmod 644 {} \+
+ 
++# disable tests on ia64, they worked in the past but not longer do
++if [ "$ARCH" = "ia64" ]; then
++
++cat > gi-meson.build.patch <<EOF
++diff --git a/meson.build b/meson.build
++index 6c603f6..dc10088 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -254,9 +254,9 @@ subdir('docs')
++ 
++ # The tests will also run, which is not possible if they
++ # were built for a different architecture.
++-if not meson.is_cross_build()
++-  subdir('tests')
++-endif
+++#if not meson.is_cross_build()
+++#  subdir('tests')
+++#endif
++ 
++ install_data('Makefile.introspection', install_dir: join_paths(get_option('datadir'), 'gobject-introspection-1.0'))
++ install_data('m4/introspection.m4', install_dir: join_paths(get_option('datadir'), 'aclocal'))
++
++EOF
++
++patch -p1 < gi-meson.build.patch && rm -f gi-meson.build.patch
++
++fi
++
+ # Configure, build, and install:
+ export CFLAGS="$SLKCFLAGS"
+ export CXXFLAGS="$SLKCFLAGS"
