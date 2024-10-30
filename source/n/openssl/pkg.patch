@@ -1,0 +1,13 @@
+diff --git a/openssl.SlackBuild b/openssl.SlackBuild
+index b36e498..e3363f4 100644
+--- a/openssl.SlackBuild
++++ b/openssl.SlackBuild
+@@ -72,6 +72,8 @@ if [ "$ARCH" = "i686" ]; then
+   LIBDIRSUFFIX=""
+ elif [ "$ARCH" = "x86_64" ]; then
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  LIBDIRSUFFIX=""
+ fi
+ 
+ # Patch openssl.cnf to remove useless FIPS documentation, and to provide
