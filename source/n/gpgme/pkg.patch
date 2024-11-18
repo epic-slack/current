@@ -1,0 +1,30 @@
+diff --git a/gpgme.SlackBuild b/gpgme.SlackBuild
+index 1609bda..fc56e0e 100644
+--- a/gpgme.SlackBuild
++++ b/gpgme.SlackBuild
+@@ -56,12 +56,15 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+ fi
+ 
+-rm -rf $PKG 
++rm -rf $PKG
+ mkdir -p $TMP $PKG
+ cd $TMP
+ rm -rf $PKGNAM-$VERSION
+@@ -85,7 +88,7 @@ CXXFLAGS="$SLKCFLAGS -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64" \
+   --sysconfdir=/etc \
+   --infodir=/usr/info \
+   --mandir=/usr/man \
+-  --enable-languages="cl cpp python qt5 qt6" \
++  --enable-languages="cl cpp python" \
+   --disable-gpg-test \
+   --docdir=/usr/doc/gpgme-$VERSION \
+   --build=$ARCH-slackware-linux \
