@@ -1,0 +1,32 @@
+diff --git a/brotli.SlackBuild b/brotli.SlackBuild
+index e9543ac..657e5ea 100644
+--- a/brotli.SlackBuild
++++ b/brotli.SlackBuild
+@@ -63,6 +63,9 @@ elif [ "$ARCH" = "x86_64" ]; then
+ elif [ "$ARCH" = "armv7hl" ]; then
+   SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+   LIBDIRSUFFIX=""
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -109,6 +112,17 @@ cd ..
+ # Only add python3 support. We're not adding any Python 2 junk now...
+ python3 setup.py install --root=$PKG || exit 1
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
++if [ "$ARCH" = "ia64" ]; then
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
++  fi
++fi
++
+ # No static libraries:
+ rm -f $PKG/usr/lib${LIBDIRSUFFIX}/*.a
+ 
