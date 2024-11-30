@@ -1,0 +1,9 @@
+diff --git a/slack-desc-orig b/slack-desc
+index 4aefe17..c3caa9e 100644
+--- a/slack-desc-orig
++++ b/slack-desc
+@@ -17,4 +17,3 @@ python-alabaster:
+ python-alabaster: Homepage: http://alabaster.readthedocs.io
+ python-alabaster:
+ python-alabaster:
+-

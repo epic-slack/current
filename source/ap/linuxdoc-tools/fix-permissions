@@ -1,0 +1,6 @@
+#!/bin/bash
+set -x
+chmod +x linuxdoc-tools.build
+chmod +x postbuildfixes.sh
+chmod +x trackbuild.linuxdoc-tools
+exit
