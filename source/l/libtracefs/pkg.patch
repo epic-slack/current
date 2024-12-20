@@ -1,0 +1,48 @@
+diff --git a/libtracefs.SlackBuild b/libtracefs.SlackBuild
+index 77e94f2..4e67c19 100644
+--- a/libtracefs.SlackBuild
++++ b/libtracefs.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -87,6 +87,33 @@ sed -i "s|\$(addprefix install-,\$(wildcard \$(OUTPUT)\*.3))|\$(patsubst \$(OUTP
+ sed -i "s|\$(addprefix install-,\$(wildcard \$(OUTPUT)\*.1))|\$(patsubst \$(OUTPUT)%,\$(OUTPUT)install-%,\$(wildcard \$(OUTPUT)\*.1))|" \
+   Documentation/Makefile
+ 
++# patch Makefile for ia64
++if [ "$ARCH" = "ia64" ]; then
++cat > Makefile.patch <<EOF
++diff --git a/Makefile b/Makefile
++index bd5c76b..c92dc9d 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -51,7 +51,12 @@ else
++   libdir_relative_temp = lib
++ endif
++ 
++-libdir_relative ?= \$(libdir_relative_temp)
+++ARCH := \$(shell arch)
+++ifeq (\$(ARCH), ia64)
+++  libdir_relative ?= lib
+++else
+++  libdir_relative ?= \$(libdir_relative_temp)
+++endif
++ prefix ?= /usr/local
++ man_dir ?= \$(prefix)/share/man
++ man_dir_SQ = '\$(subst ','\'',\$(man_dir))'
++
++EOF
++fi
++
++patch -p1 < Makefile.patch && rm -f Makefile.patch
++
+ CFLAGS="$SLKCFLAGS" \
+ make \
+   $NUMJOBS \

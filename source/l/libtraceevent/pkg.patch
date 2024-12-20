@@ -1,0 +1,70 @@
+diff --git a/libtraceevent.SlackBuild b/libtraceevent.SlackBuild
+index d82a6bc..ebc7407 100644
+--- a/libtraceevent.SlackBuild
++++ b/libtraceevent.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -76,6 +76,55 @@ find . \
+   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+   -exec chmod 644 {} \+
+ 
++# patch Makefiles
++cat > Makefile.patch <<EOF
++diff --git a/Makefile b/Makefile
++index 5f3e372..0d5ecb3 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -44,7 +44,12 @@ else
++   libdir_relative_temp = lib
++ endif
++ 
++-libdir_relative ?= \$(libdir_relative_temp)
+++ARCH := \$(shell arch)
+++ifeq (\$(ARCH), ia64)
+++  libdir_relative ?= lib
+++else
+++  libdir_relative ?= \$(libdir_relative_temp)
+++endif
++ prefix ?= /usr/local
++ libdir ?= \$(prefix)/\$(libdir_relative)
++ man_dir ?= \$(prefix)/share/man
++
++EOF
++
++patch -p1 < Makefile.patch && rm -f Makefile.patch
++
++cat > plugins-Makefile.patch <<EOF
++diff --git a/plugins/Makefile b/plugins/Makefile
++index 4c8cb17..3a536d3 100644
++--- a/plugins/Makefile
+++++ b/plugins/Makefile
++@@ -37,7 +37,12 @@ else
++   libdir_relative_tmp = lib
++ endif
++ 
++-libdir_relative ?= \$(libdir_relative_tmp)
+++ARCH := \$(shell arch)
+++ifeq (\$(ARCH), ia64)
+++  libdir_relative ?= lib
+++else
+++  libdir_relative ?= \$(libdir_relative_temp)
+++endif
++ prefix ?= /usr/local
++ libdir = \$(prefix)/\$(libdir_relative)
++ 
++
++EOF
++
++patch -p1 < plugins-Makefile.patch && rm -f plugins-Makefile.patch
++
+ CFLAGS="$SLKCFLAGS" \
+ make \
+   $NUMJOBS \
