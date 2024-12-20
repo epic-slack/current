@@ -1,22 +1,22 @@
 diff --git a/ndctl.SlackBuild b/ndctl.SlackBuild
-index f691cdb..2611775 100644
+index cee51c4..a4f5357 100644
 --- a/ndctl.SlackBuild
 +++ b/ndctl.SlackBuild
-@@ -63,6 +63,9 @@ elif [ "$ARCH" = "x86_64" ]; then
- elif [ "$ARCH" = "armv7hl" ]; then
-   SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
-   LIBDIRSUFFIX=""
-+elif [ "$ARCH" = "ia64" ]; then
+@@ -54,6 +54,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "64" ]; then
 +  SLKCFLAGS="-O2 -fPIC"
 +  LIBDIRSUFFIX=""
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -103,6 +106,7 @@ meson setup \
+@@ -94,6 +97,7 @@ meson setup \
    --sysconfdir=/etc \
    --localstatedir=/var \
    --buildtype=release \
 +  -Dasciidoctor=disabled \
    -Dsystemd=disabled \
-   -Dlibtracefs=disabled \
+   -Dlibtracefs=enabled \
    .. || exit 1
