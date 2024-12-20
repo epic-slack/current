@@ -1,8 +1,8 @@
-diff --git a/libjpeg-turbo.SlackBuild b/libjpeg-turbo.SlackBuild
-index 693a0c4..f7fa230 100644
---- a/libjpeg-turbo.SlackBuild
-+++ b/libjpeg-turbo.SlackBuild
-@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+diff --git a/libssh.SlackBuild b/libssh.SlackBuild
+index 1f75557..3f50da1 100644
+--- a/libssh.SlackBuild
++++ b/libssh.SlackBuild
+@@ -54,6 +54,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
    LIBDIRSUFFIX="64"
@@ -12,9 +12,9 @@ index 693a0c4..f7fa230 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -92,6 +92,17 @@ cd build
+@@ -97,6 +97,17 @@ cd build
    make install DESTDIR=$PKG || exit 1
- cd ..
+ cd -
  
 +# move `/usr/lib64/*` to `/usr/lib` for ia64, as `-DLIB_SUFFIX` is ignored
 +if [ "$ARCH" = "ia64" ]; then
@@ -27,10 +27,10 @@ index 693a0c4..f7fa230 100644
 +  fi
 +fi
 +
- # Don't ship .la files:
- rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
- 
-@@ -137,4 +148,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ # Strip binaries:
+ find $PKG | xargs file | grep -e "executable" -e "shared object" \
+   | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+@@ -112,4 +123,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
  
  cd $PKG
  /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
