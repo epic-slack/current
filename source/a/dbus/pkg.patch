@@ -1,0 +1,23 @@
+diff --git a/dbus.SlackBuild b/dbus.SlackBuild
+index d766c4a..551bedc 100644
+--- a/dbus.SlackBuild
++++ b/dbus.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -103,7 +106,7 @@ meson setup \
+   -Dselinux=disabled \
+   -Dinotify=enabled \
+   -Duser_session=true \
+-  -Dx11_autolaunch=enabled \
++  -Dx11_autolaunch=disabled \
+   -Dsystemd=disabled \
+   -Dsystem_pid_file=/var/run/dbus/dbus.pid \
+   -Dsystem_socket=/var/run/dbus/system_bus_socket \
