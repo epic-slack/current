@@ -1,0 +1,14 @@
+diff --git a/tclx.SlackBuild b/tclx.SlackBuild
+index 46df980..6426e8e 100644
+--- a/tclx.SlackBuild
++++ b/tclx.SlackBuild
+@@ -60,6 +60,9 @@ elif [ "$ARCH" = "s390" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -fPIC -I/usr/include/tcl-private/generic -I/usr/include/tcl-private/unix"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC -I/usr/include/tcl-private/generic -I/usr/include/tcl-private/unix"
++  LIBDIRSUFFIX=""
+ fi
+ 
+ cd $TMP

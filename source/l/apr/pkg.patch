@@ -1,0 +1,26 @@
+diff --git a/apr.SlackBuild b/apr.SlackBuild
+index 0a69314..59127b5 100644
+--- a/apr.SlackBuild
++++ b/apr.SlackBuild
+@@ -52,6 +52,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -85,7 +85,10 @@ CFLAGS="$SLKCFLAGS" \
+   --build=$ARCH-slackware-linux || exit 1
+ 
+ make $NUMJOBS || make || exit 1
+-make dox || exit 1
++# No doxygen yet for ia64
++if [ "$ARCH" != "ia64" ]; then
++	make dox || exit 1
++fi
+ make install DESTDIR=$PKG || exit 1
+ 
+ # Don't ship .la files:

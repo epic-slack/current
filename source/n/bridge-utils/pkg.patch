@@ -1,0 +1,19 @@
+diff --git a/bridge-utils.SlackBuild b/bridge-utils.SlackBuild
+index 90e49e3..d53b91a 100644
+--- a/bridge-utils.SlackBuild
++++ b/bridge-utils.SlackBuild
+@@ -56,6 +56,9 @@ elif [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -131,4 +134,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ # Build the package:
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/bridge-utils-$VERSION-$ARCH-$BUILD.txz
+-

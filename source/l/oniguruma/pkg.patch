@@ -1,0 +1,14 @@
+diff --git a/oniguruma.SlackBuild b/oniguruma.SlackBuild
+index 9afaac4..dd4362a 100644
+--- a/oniguruma.SlackBuild
++++ b/oniguruma.SlackBuild
+@@ -63,6 +63,9 @@ elif [ "$ARCH" = "x86_64" ]; then
+ elif [ "$ARCH" = "armv7hl" ]; then
+   SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
+   LIBDIRSUFFIX=""
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
