@@ -1,0 +1,35 @@
+diff --git a/cracklib.SlackBuild b/cracklib.SlackBuild
+index 4ba95f2..e465d40 100644
+--- a/cracklib.SlackBuild
++++ b/cracklib.SlackBuild
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+- 
++
+ # Copyright 2010,2011 Vincent Batts, Vienna, VA, USA
+ # Copyright 2010, 2018, 2023, 2024  Patrick J. Volkerding, Sebeka, Minnesota, USA
+ # All rights reserved.
+@@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -120,7 +123,7 @@ elif [ -r $CWD/cracklib-words-*.gz ]; then
+ elif [ -r $CWD/cracklib-words-*.lz ]; then
+   lzip -dc $CWD/cracklib-words-*.lz > cracklib-words
+ fi
+-  
++
+ # If cracklib-words exists, add it to the dictionary. Otherwise go with the bundled list.
+ if [ -r cracklib-words ]; then
+   PATH=$(pwd)/util:$PATH \
+@@ -160,4 +163,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-
