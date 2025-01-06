@@ -1,8 +1,8 @@
-diff --git a/utf8proc.SlackBuild b/utf8proc.SlackBuild
-index 3875e94..b010326 100644
---- a/utf8proc.SlackBuild
-+++ b/utf8proc.SlackBuild
-@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+diff --git a/procps-ng.SlackBuild b/procps-ng.SlackBuild
+index 87cb284..f15d4dd 100644
+--- a/procps-ng.SlackBuild
++++ b/procps-ng.SlackBuild
+@@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
    LIBDIRSUFFIX="64"
@@ -12,7 +12,7 @@ index 3875e94..b010326 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -132,4 +135,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+@@ -262,4 +265,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
  
  cd $PKG
  /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz

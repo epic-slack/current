@@ -1,0 +1,42 @@
+diff --git a/e2fsprogs.SlackBuild b/e2fsprogs.SlackBuild
+index b64002f..38d27bc 100644
+--- a/e2fsprogs.SlackBuild
++++ b/e2fsprogs.SlackBuild
+@@ -55,6 +55,12 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  # /usr/include/fuse/fuse_common.h:33:2: error: #error Please add -D_FILE_OFFSET_BITS=64 to your compile flags!
++  #  33 | #error Please add -D_FILE_OFFSET_BITS=64 to your compile flags!
++  #     |  ^~~~~
++  SLKCFLAGS="-O2 -fPIC -D_FILE_OFFSET_BITS=64"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -110,7 +116,7 @@ make install DESTDIR=$PKG || exit 1
+ make install-libs DESTDIR=$PKG || exit 1
+ 
+ # I guess Ted would rather not have this included, so we won't.
+-# ( cd misc 
++# ( cd misc
+ #   make findsuper
+ #   cat findsuper > $PKG/sbin/findsuper
+ #   chmod 0755 $PKG/sbin/findsuper )
+@@ -126,8 +132,8 @@ mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}
+ mv $PKG/lib${LIBDIRSUFFIX}/pkgconfig $PKG/lib${LIBDIRSUFFIX}/*.so \
+   $PKG/usr/lib${LIBDIRSUFFIX}
+ ( cd $PKG/usr/lib${LIBDIRSUFFIX}
+-  for i in *.so ; do 
+-    ln -sf /lib${LIBDIRSUFFIX}/$(readlink $i) $i ; 
++  for i in *.so ; do
++    ln -sf /lib${LIBDIRSUFFIX}/$(readlink $i) $i ;
+   done
+ )
+ 
+@@ -217,4 +223,3 @@ zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/e2fsprogs-$VERSION-$ARCH-$BUILD.txz
+-
