@@ -1,5 +1,5 @@
 diff --git a/libpng.SlackBuild b/libpng.SlackBuild
-index 2cf29e2..e63a823 100644
+index 2cf29e2..bd77489 100644
 --- a/libpng.SlackBuild
 +++ b/libpng.SlackBuild
 @@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,8 @@ index 2cf29e2..e63a823 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -135,4 +138,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-

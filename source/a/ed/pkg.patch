@@ -1,0 +1,9 @@
+diff --git a/ed.SlackBuild b/ed.SlackBuild
+index 624fc83..f961994 100644
+--- a/ed.SlackBuild
++++ b/ed.SlackBuild
+@@ -137,4 +137,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $TMP/package-${PKGNAM}
+ /sbin/makepkg -l y -c n $TMP/${PKGNAM}-$VERSION-$ARCH-$BUILD.txz
+-
