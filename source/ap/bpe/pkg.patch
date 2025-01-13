@@ -1,0 +1,13 @@
+diff --git a/bpe.SlackBuild b/bpe.SlackBuild
+index 3ed4529..9ee95f6 100644
+--- a/bpe.SlackBuild
++++ b/bpe.SlackBuild
+@@ -50,6 +50,8 @@ elif [ "$ARCH" = "s390" ]; then
+   SLKCFLAGS="-O2"
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -fPIC"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
+ else
+   SLKCFLAGS="-O2"
+ fi
