@@ -1,5 +1,5 @@
 diff --git a/glibc-zoneinfo.SlackBuild b/glibc-zoneinfo.SlackBuild
-index 3fbf15e..4ca46e3 100644
+index 3fbf15e..085fefe 100644
 --- a/glibc-zoneinfo.SlackBuild
 +++ b/glibc-zoneinfo.SlackBuild
 @@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,8 @@ index 3fbf15e..4ca46e3 100644
  else
    SLKCFLAGS="-DHAVE_SNPRINTF=1 -O2"
    LIBDIRSUFFIX=""
+@@ -141,4 +144,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ makepkg -l y -c n $TMP/glibc-zoneinfo-$ZONE_VERSIONS-noarch-$BUILD.txz
+-
