@@ -1,0 +1,19 @@
+diff --git a/xz.SlackBuild b/xz.SlackBuild
+index c44c11d..ad46305 100644
+--- a/xz.SlackBuild
++++ b/xz.SlackBuild
+@@ -51,6 +51,9 @@ case "$ARCH" in
+   x86_64)    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+              LIBDIRSUFFIX="64"
+              ;;
++  ia64)      SLKCFLAGS="-O2 -fPIC"
++             LIBDIRSUFFIX=""
++             ;;
+   *)         SLKCFLAGS="-O2"
+              LIBDIRSUFFIX=""
+              ;;
+@@ -162,4 +165,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz
+-

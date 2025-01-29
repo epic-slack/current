@@ -1,7 +1,7 @@
-diff --git a/libpaper.SlackBuild b/libpaper.SlackBuild
-index 8e4c14d..5b8bc3e 100644
---- a/libpaper.SlackBuild
-+++ b/libpaper.SlackBuild
+diff --git a/libcgroup.SlackBuild b/libcgroup.SlackBuild
+index b094d6e..acda257 100644
+--- a/libcgroup.SlackBuild
++++ b/libcgroup.SlackBuild
 @@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
