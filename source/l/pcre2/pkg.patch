@@ -1,0 +1,23 @@
+diff --git a/pcre2.SlackBuild b/pcre2.SlackBuild
+index a54a6ba..682d217 100644
+--- a/pcre2.SlackBuild
++++ b/pcre2.SlackBuild
+@@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -85,7 +88,7 @@ CXXFLAGS="$SLKCFLAGS" \
+   --enable-static=no \
+   --enable-pcre2-16 \
+   --enable-pcre2-32 \
+-  --enable-jit \
++  --enable-jit=auto \
+   --enable-pcre2grep-libz \
+   --enable-pcre2grep-libbz2 \
+   --enable-pcre2test-libreadline \

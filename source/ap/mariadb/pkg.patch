@@ -1,5 +1,5 @@
 diff --git a/mariadb.SlackBuild b/mariadb.SlackBuild
-index 21710dc..b02b33c 100644
+index f32ebf2..06ecb52 100644
 --- a/mariadb.SlackBuild
 +++ b/mariadb.SlackBuild
 @@ -75,6 +75,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,29 @@ index 21710dc..b02b33c 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -154,6 +157,25 @@ rm -rf $PKG/etc/systemd
+ # Leave build directory:
+ cd ..
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64, if existing
++if [ "$ARCH" = "ia64" ]; then
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
++  fi
++# also do that similarly for `/lib64`, if existing
++  if [ -d $PKG/lib64 ]; then
++    if [ -d $PKG/lib ]; then
++      mv $PKG/lib64/* $PKG/lib/ && rm -rf $PKG/lib64
++    else
++      mv $PKG/lib64 $PKG/lib
++    fi
++  fi
++fi
++
+ # Install innotop
+ install -m755 debian/additions/innotop/innotop $PKG/usr/bin/
+ install -m644 debian/additions/innotop/innotop.1 $PKG/usr/man/man1/
