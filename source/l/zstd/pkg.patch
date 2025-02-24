@@ -1,0 +1,32 @@
+diff --git a/zstd.SlackBuild b/zstd.SlackBuild
+index be86fbd..5f443ed 100644
+--- a/zstd.SlackBuild
++++ b/zstd.SlackBuild
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -99,6 +102,17 @@ make $NUMJOBS CFLAGS="$SLKCFLAGS" || exit 1
+ make install DESTDIR=$PKG || exit 1
+ cd ../../..
+ 
++# move `/usr/lib64/*` to `/usr/lib` for ia64
++if [ "$ARCH" = "ia64" ]; then
++  if [ -d $PKG/usr/lib64 ]; then
++    if [ -d $PKG/usr/lib ]; then
++      mv $PKG/usr/lib64/* $PKG/usr/lib/ && rm -rf $PKG/usr/lib64
++    else
++      mv $PKG/usr/lib64 $PKG/usr/lib
++    fi
++  fi
++fi
++
+ # Compile and install pzstd:
+ zcat $CWD/zstd.dont.link.pzstd.to.static.libzstd.a.diff.gz | patch -p1 --verbose || exit 1
+ make $NUMJOBS CFLAGS="$SLKCFLAGS" -C contrib/pzstd || exit 1

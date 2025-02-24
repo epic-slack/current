@@ -1,0 +1,9 @@
+diff --git a/sysvinit-functions.SlackBuild b/sysvinit-functions.SlackBuild
+index ab7526c..e345617 100644
+--- a/sysvinit-functions.SlackBuild
++++ b/sysvinit-functions.SlackBuild
+@@ -95,4 +95,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ # Build the package:
+ cd $PKG
+ makepkg -l y -c n $TMP/sysvinit-functions-$VERSION-$ARCH-$BUILD.txz
+-

@@ -1,0 +1,13 @@
+diff --git a/mutt.SlackBuild b/mutt.SlackBuild
+index 2c1cf62..e9d5bfc 100644
+--- a/mutt.SlackBuild
++++ b/mutt.SlackBuild
+@@ -50,6 +50,8 @@ if [ "$ARCH" = "i686" ]; then
+   SLKCFLAGS="-O2 -march=pentium4 -mtune=generic"
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
+ else
+   SLKCFLAGS="-O2"
+ fi
