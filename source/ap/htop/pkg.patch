@@ -1,7 +1,7 @@
-diff --git a/ncftp.SlackBuild b/ncftp.SlackBuild
-index 06e80fc..41123b1 100644
---- a/ncftp.SlackBuild
-+++ b/ncftp.SlackBuild
+diff --git a/htop.SlackBuild b/htop.SlackBuild
+index 994fb1a..4bcf888 100644
+--- a/htop.SlackBuild
++++ b/htop.SlackBuild
 @@ -52,6 +52,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
@@ -12,8 +12,8 @@ index 06e80fc..41123b1 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -126,4 +129,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+@@ -131,4 +134,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
  
  cd $PKG
- /sbin/makepkg -l y -c n $TMP/ncftp-$VERSION-$ARCH-$BUILD.txz
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
 -

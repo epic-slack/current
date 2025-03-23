@@ -1,5 +1,5 @@
 diff --git a/libcap.SlackBuild b/libcap.SlackBuild
-index d805c9d..c358850 100644
+index d805c9d..78d2b5a 100644
 --- a/libcap.SlackBuild
 +++ b/libcap.SlackBuild
 @@ -58,6 +58,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -21,3 +21,16 @@ index d805c9d..c358850 100644
  rm -rf $PKGNAM-$VERSION
  tar xvf $CWD/$PKGNAM-$VERSION.tar.xz || exit 1
  cd $PKGNAM-$VERSION || exit 1
+@@ -82,6 +85,7 @@ find . \
+ 
+ # Put the pkgconfig files in the proper location:
+ zcat $CWD/libcap.pkgconfig.path.diff.gz | patch -p1 --verbose || exit 1
++zcat $CWD/libcap-fix-ia64-build.diff.gz | patch -p1 --verbose || exit 1
+ 
+ # Set the CFLAGS
+ sed -i "s/^\(DEBUG =\).*/\1$SLKCFLAGS/" Make.Rules
+@@ -129,4 +133,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-
