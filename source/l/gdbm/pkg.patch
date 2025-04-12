@@ -1,0 +1,19 @@
+diff --git a/gdbm.SlackBuild b/gdbm.SlackBuild
+index 368b161..950b958 100644
+--- a/gdbm.SlackBuild
++++ b/gdbm.SlackBuild
+@@ -60,6 +60,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -122,4 +125,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ # Build the package:
+ cd $PKG
+ makepkg -l y -c n $TMP/gdbm-$VERSION-$ARCH-$BUILD.txz
+-

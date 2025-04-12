@@ -1,0 +1,46 @@
+From: Vladimir Serbinenko <phcoder@gmail.com>
+To: grub-devel@gnu.org
+Cc: Vladimir Serbinenko <phcoder@gmail.com>
+Subject: [PATCH] ia64: Disable optimizations using floating-point arithmetics
+Date: Thu, 10 Apr 2025 13:45:37 +0300	[thread overview]
+Message-ID: <20250410104545.3758686-1-phcoder@gmail.com> (raw)
+
+They don't work in ski emulator and we don't really need them
+
+Signed-off-by: Vladimir Serbinenko <phcoder@gmail.com>
+---
+ configure.ac                | 4 ++--
+ grub-core/Makefile.core.def | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 25f3ff932..ecb8bc666 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -933,9 +933,9 @@ if test x"$platform" != xemu ; then
+ 		         [grub_cv_target_cc_soft_float="-march=rv64imac_zicsr_zifencei -mabi=lp64"], [])
+     fi
+     if test "x$target_cpu" = xia64; then
+-       CFLAGS="$TARGET_CFLAGS -mno-inline-float-divide -mno-inline-sqrt -Werror"
++       CFLAGS="$TARGET_CFLAGS -mno-inline-int-divide -mno-inline-float-divide -mno-inline-sqrt -Werror"
+        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[]])],
+-		         [grub_cv_target_cc_soft_float="-mno-inline-float-divide -mno-inline-sqrt"], [])
++		         [grub_cv_target_cc_soft_float="-mno-inline-int-divide -mno-inline-float-divide -mno-inline-sqrt"], [])
+     fi
+     if test "x$target_cpu" = xsh4; then
+        CFLAGS="$TARGET_CFLAGS -m4-nofpu -Werror"
+diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+index 4c6269c2b..f0b9ea48a 100644
+--- a/grub-core/Makefile.core.def
++++ b/grub-core/Makefile.core.def
+@@ -57,7 +57,7 @@ kernel = {
+   x86_64_efi_ldflags       = '-Wl,-r';
+   x86_64_efi_stripflags    = '--strip-unneeded -K start -R .note -R .comment -R .note.gnu.gold-version';
+ 
+-  ia64_efi_cflags = '-fshort-wchar -fno-builtin -fpic -minline-int-divide-max-throughput';
++  ia64_efi_cflags = '-fshort-wchar -fno-builtin -fpic';
+   ia64_efi_ldflags = '-Wl,-r';
+   ia64_efi_stripflags = '--strip-unneeded -K start -R .note -R .comment -R .note.gnu.gold-version';
+ 
+-- 
+2.49.0

@@ -1,10 +1,10 @@
 diff --git a/gawk.SlackBuild b/gawk.SlackBuild
-index 63d668e..f502e22 100644
+index 24bea94..65408c5 100644
 --- a/gawk.SlackBuild
 +++ b/gawk.SlackBuild
-@@ -58,6 +58,9 @@ elif [ "$ARCH" = "s390" ]; then
+@@ -55,6 +55,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
-   SLKCFLAGS="-O2 -fPIC"
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
    LIBDIRSUFFIX="64"
 +elif [ "$ARCH" = "ia64" ]; then
 +  SLKCFLAGS="-O2 -fPIC"
@@ -12,3 +12,8 @@ index 63d668e..f502e22 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -151,4 +154,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ # Build the package:
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/gawk-$VERSION-$ARCH-$BUILD.txz
+-

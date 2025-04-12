@@ -1,5 +1,5 @@
 diff --git a/libgpg-error.SlackBuild b/libgpg-error.SlackBuild
-index f46ecb4..83f8365 100644
+index f46ecb4..f17105a 100644
 --- a/libgpg-error.SlackBuild
 +++ b/libgpg-error.SlackBuild
 @@ -56,12 +56,15 @@ if [ "$ARCH" = "i686" ]; then
@@ -19,3 +19,8 @@ index f46ecb4..83f8365 100644
  mkdir -p $TMP $PKG
  cd $TMP
  rm -rf $PKGNAM-$VERSION
+@@ -151,4 +154,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-

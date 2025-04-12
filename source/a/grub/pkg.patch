@@ -1,5 +1,5 @@
 diff --git a/grub.SlackBuild b/grub.SlackBuild
-index eea2d37..6f40f7b 100644
+index accc311..f51b05f 100644
 --- a/grub.SlackBuild
 +++ b/grub.SlackBuild
 @@ -63,6 +63,10 @@ elif [ "$ARCH" = "x86_64" ]; then
@@ -13,3 +13,30 @@ index eea2d37..6f40f7b 100644
  else
    SLKCFLAGS=""
    LIBDIRSUFFIX=""
+@@ -124,6 +128,13 @@ cat $CWD/0005-GRUB_DISPLAY_KERNEL_FILETYPES.patch | patch -p1 --verbose || exit
+ # standard files in here will be overwritten with every upgrade:
+ cat $CWD/0006-warn-grub.d-overwrites-docs.patch | patch -p1 --verbose || exit 1
+ 
++# Add patches to allow a GRUB standalone image to work with ski-efi
++# See https://github.com/trofi/ski/issues/12
++if [ "$ARCH" = "ia64" ]; then
++  cat $CWD/9998-ia64-Reset-grub_errno-on-failure-to-allocate.patch | patch -p1 --verbose || exit 1
++  cat $CWD/9999-ia64-Disable-optimizations-using-floating-point-arithmetics.patch | patch -p1 --verbose || exit 1
++fi
++
+ # Still won't compile. Someday they'll remember how to cut a new release.
+ touch grub-core/extra_deps.lst
+ 
+@@ -260,5 +271,11 @@ cat $CWD/doinst.sh > $PKG/install/doinst.sh
+ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+-/sbin/makepkg -l y -c n $TMP/$PKGNAM-$PKGVER-$ARCH-$BUILD.txz
+ 
++# Build GRUB standalone image for use with ski-efi and make sure it
++# becomes part of the package.
++if [ "$ARCH" = "ia64" ]; then
++  ./usr/bin/grub-mkstandalone -o ./boot/grub/grub-ia64-standalone.efi -O ia64-efi
++fi
++
++/sbin/makepkg -l y -c n $TMP/$PKGNAM-$PKGVER-$ARCH-$BUILD.txz

@@ -1,0 +1,14 @@
+diff --git a/ncurses.SlackBuild b/ncurses.SlackBuild
+index 0685af7..1529413 100644
+--- a/ncurses.SlackBuild
++++ b/ncurses.SlackBuild
+@@ -56,6 +56,9 @@ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   X86_64OPTS=" --with-chtype=long --with-mmask-t=long "
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
