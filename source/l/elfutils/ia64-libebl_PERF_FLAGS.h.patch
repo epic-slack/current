@@ -1,0 +1,15 @@
+diff --git a/backends/libebl_PERF_FLAGS.h b/backends/libebl_PERF_FLAGS.h
+index 2ed45f0..7259365 100644
+--- a/backends/libebl_PERF_FLAGS.h
++++ b/backends/libebl_PERF_FLAGS.h
+@@ -32,7 +32,9 @@
+ #define _LIBEBL_PERF_FLAGS_H 1
+ 
+ #if defined(__linux__)
+-# include <asm/perf_regs.h>
++# if ! defined(__ia64__)
++#  include <asm/perf_regs.h>
++# endif
+ #endif
+ 
+ #if defined(_ASM_X86_PERF_REGS_H)
