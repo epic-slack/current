@@ -1,0 +1,19 @@
+diff --git a/m4.SlackBuild b/m4.SlackBuild
+index 8370954..9778c15 100644
+--- a/m4.SlackBuild
++++ b/m4.SlackBuild
+@@ -55,6 +55,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -142,4 +145,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/m4-$VERSION-$ARCH-$BUILD.txz
+-

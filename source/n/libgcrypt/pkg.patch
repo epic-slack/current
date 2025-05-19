@@ -1,0 +1,26 @@
+diff --git a/libgcrypt.SlackBuild b/libgcrypt.SlackBuild
+index 54d94c9..5f900f9 100644
+--- a/libgcrypt.SlackBuild
++++ b/libgcrypt.SlackBuild
+@@ -56,12 +56,15 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+ fi
+ 
+-rm -rf $PKG 
++rm -rf $PKG
+ mkdir -p $TMP $PKG
+ cd $TMP
+ rm -rf $PKGNAM-$VERSION
+@@ -132,4 +135,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-

@@ -1,0 +1,19 @@
+diff --git a/usb_modeswitch.SlackBuild b/usb_modeswitch.SlackBuild
+index 20ef355..9a6083f 100644
+--- a/usb_modeswitch.SlackBuild
++++ b/usb_modeswitch.SlackBuild
+@@ -58,6 +58,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -143,4 +146,3 @@ zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-

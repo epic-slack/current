@@ -1,0 +1,9 @@
+diff --git a/lm_sensors.SlackBuild b/lm_sensors.SlackBuild
+index 17c1a52..4fb748f 100644
+--- a/lm_sensors.SlackBuild
++++ b/lm_sensors.SlackBuild
+@@ -127,4 +127,3 @@ EOF
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/${PKGNAM}-$VERSION-$ARCH-$BUILD.txz
+-
