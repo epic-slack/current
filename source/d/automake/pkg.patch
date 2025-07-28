@@ -1,0 +1,9 @@
+diff --git a/automake.SlackBuild b/automake.SlackBuild
+index f653a9b..d49406b 100644
+--- a/automake.SlackBuild
++++ b/automake.SlackBuild
+@@ -110,4 +110,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/automake-$VERSION-noarch-$BUILD.txz
+-
