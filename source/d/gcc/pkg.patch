@@ -1,6 +1,6 @@
-diff --git a/gcc.SlackBuild b/gcc.SlackBuild
-index 2af0c82..8aa81ff 100644
---- a/gcc.SlackBuild
+diff --git a/gcc.SlackBuild.orig b/gcc.SlackBuild
+index 88468e0..8aa81ff 100644
+--- a/gcc.SlackBuild.orig
 +++ b/gcc.SlackBuild
 @@ -69,7 +69,7 @@ BUILD=${BUILD:-1}
  
@@ -405,7 +405,7 @@ index 2af0c82..8aa81ff 100644
 -if echo $LANGS | grep -q cobol ; then
 -  ( cd $PKG13
 -    mkdir -p usr/bin
--    mv $PKG1/usr/bin/gcobc $PKG1/usr/bin/gcobol usr/bin
+-    mv $PKG1/usr/bin/*gcobc $PKG1/usr/bin/*gcobol usr/bin
 -    mkdir -p usr/lib${LIBDIRSUFFIX}
 -    mv $PKG1/usr/lib${LIBDIRSUFFIX}/libgcobol* usr/lib${LIBDIRSUFFIX}
 -    mkdir -p usr/libexec/gcc/$TARGET/$VERSION

@@ -1,5 +1,5 @@
 diff --git a/binutils.SlackBuild b/binutils.SlackBuild
-index be074fd..ced69ae 100644
+index 51654d1..55fb3ec 100644
 --- a/binutils.SlackBuild
 +++ b/binutils.SlackBuild
 @@ -62,6 +62,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,14 +12,12 @@ index be074fd..ced69ae 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -151,9 +154,8 @@ CFLAGS="$SLKCFLAGS" \
+@@ -148,7 +151,7 @@ CFLAGS="$SLKCFLAGS" \
    --enable-64-bit-bfd \
    --enable-plugins \
    --enable-threads \
 -  --enable-targets=i386-efi-pe,bpf-unknown-none,${TARGET} \
 +  --enable-targets=bpf-unknown-none,${TARGET} \
    --enable-install-libiberty \
--  --enable-gold=yes \
    --enable-ld=default \
    --enable-initfini-array \
-   $WERROR \
