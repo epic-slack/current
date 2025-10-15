@@ -1,5 +1,5 @@
 diff --git a/mozilla-nss.SlackBuild b/mozilla-nss.SlackBuild
-index 181d2b3..50cfa27 100644
+index 01afe29..32a4afa 100644
 --- a/mozilla-nss.SlackBuild
 +++ b/mozilla-nss.SlackBuild
 @@ -56,6 +56,10 @@ elif [ "$ARCH" = "x86_64" ]; then
@@ -23,7 +23,7 @@ index 181d2b3..50cfa27 100644
  # Make sure ownerships and permissions are sane:
  chown -R root:root .
  find . \
-@@ -88,6 +95,44 @@ find . \
+@@ -88,6 +95,26 @@ find . \
    \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
    -exec chmod 644 {} \+
  
@@ -45,30 +45,12 @@ index 181d2b3..50cfa27 100644
 +
 +EOF
 +patch -p1 < nss_use_64-ia64.patch && rm nss_use_64-ia64.patch
-+
-+cat > nss_gyp_no_parallel-ia64.patch <<EOF
-+diff --git a/nss/build.sh b/nss/build.sh
-+index e3e7c80..453b554 100755
-+--- a/nss/build.sh
-++++ b/nss/build.sh
-+@@ -275,7 +275,7 @@ if [ "$rebuild_gyp" = 1 ]; then
-+         set_nspr_path "\$obj_dir/include/nspr:\$obj_dir/lib"
-+     fi
-+ 
-+-    run_verbose run_scanbuild \${GYP} -f ninja "\${gyp_params[@]}" "\$cwd/nss.gyp"
-++    run_verbose run_scanbuild \${GYP} -f ninja "\${gyp_params[@]}" "--no-parallel" "\$cwd/nss.gyp"
-+ 
-+     mv -f "\$gyp_config.new" "\$gyp_config"
-+ fi
-+
-+EOF
-+patch -p1 < nss_gyp_no_parallel-ia64.patch && rm nss_gyp_no_parallel-ia64.patch
 +fi
 +
  cd nss
  ./build.sh -v $NUMJOBS --opt --system-sqlite --enable-libpkix --disable-tests
  cd -
-@@ -178,4 +223,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+@@ -178,4 +205,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
  # Build the package:
  cd $PKG
  /sbin/makepkg -l y -c n $TMP/${PKGNAM}-${VERSION}-${ARCH}-${BUILD}.txz

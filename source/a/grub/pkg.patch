@@ -27,16 +27,3 @@ index accc311..f51b05f 100644
  # Still won't compile. Someday they'll remember how to cut a new release.
  touch grub-core/extra_deps.lst
  
-@@ -260,5 +271,11 @@ cat $CWD/doinst.sh > $PKG/install/doinst.sh
- cat $CWD/slack-desc > $PKG/install/slack-desc
- 
- cd $PKG
--/sbin/makepkg -l y -c n $TMP/$PKGNAM-$PKGVER-$ARCH-$BUILD.txz
- 
-+# Build GRUB standalone image for use with ski-efi and make sure it
-+# becomes part of the package.
-+if [ "$ARCH" = "ia64" ]; then
-+  ./usr/bin/grub-mkstandalone -o ./boot/grub/grub-ia64-standalone.efi -O ia64-efi
-+fi
-+
-+/sbin/makepkg -l y -c n $TMP/$PKGNAM-$PKGVER-$ARCH-$BUILD.txz

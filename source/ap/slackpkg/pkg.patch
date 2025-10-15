@@ -1,0 +1,16 @@
+diff --git a/slackpkg.SlackBuild b/slackpkg.SlackBuild
+index fd01de1..63b06f5 100644
+--- a/slackpkg.SlackBuild
++++ b/slackpkg.SlackBuild
+@@ -43,7 +43,10 @@ mkdir -p $TMP $PKG
+ 
+ # I never use this because it tends to bail on useless errors, but since
+ # we're actually the upstream here it should never do that.  :-)
+-set -e
++
++# preserving permissions doesn't work on the used tmpfs for $TMP, so
++# disable this
++#set -e
+ 
+ cd $CWD/files
+ 
