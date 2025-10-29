@@ -1,5 +1,5 @@
 diff --git a/elfutils.SlackBuild b/elfutils.SlackBuild
-index 4944fdf..eadf755 100644
+index 4944fdf..4c84b99 100644
 --- a/elfutils.SlackBuild
 +++ b/elfutils.SlackBuild
 @@ -52,6 +52,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,18 +12,7 @@ index 4944fdf..eadf755 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -75,6 +78,10 @@ find . \
-   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
-   -exec chmod 644 {} \+
- 
-+if [ "$ARCH" = "ia64" ]; then
-+  cat $CWD/ia64-libebl_PERF_FLAGS.h.patch | patch -p1 --verbose || exit 1
-+fi
-+
- # Configure:
- CFLAGS="$SLKCFLAGS" \
- ./configure \
-@@ -152,4 +159,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+@@ -152,4 +155,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
  
  cd $PKG
  /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
