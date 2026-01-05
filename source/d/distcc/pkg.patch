@@ -1,0 +1,46 @@
+diff --git a/distcc.SlackBuild b/distcc.SlackBuild
+index 1fd5bae..68f0f96 100644
+--- a/distcc.SlackBuild
++++ b/distcc.SlackBuild
+@@ -84,7 +84,7 @@ fi
+   --datadir=/usr/share \
+   --sysconfdir=/etc \
+   --mandir=/usr/man \
+-  --with-gtk \
++  --without-gtk \
+   --with-auth \
+   --without-gnome \
+   --disable-Werror \
+diff --git a/distcc.SlackBuild b/distcc.SlackBuild
+index 43a9f8d..b3e4a14 100644
+--- a/distcc.SlackBuild
++++ b/distcc.SlackBuild
+@@ -44,6 +44,8 @@ elif [ "$ARCH" = "s390" ]; then
+   LIBDIRSUFFIX=""
+ elif [ "$ARCH" = "x86_64" ]; then
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  LIBDIRSUFFIX=""
+ else
+   LIBDIRSUFFIX=""
+ fi
+@@ -68,6 +70,19 @@ cd $TMP
+ rm -rf distcc-$VERSION
+ tar xvf $CWD/distcc-$VERSION.tar.?z || exit 1
+ cd distcc-$VERSION || exit 1
++
++# Apply any required patches:
++for patch in $CWD/patches/*.patch $CWD/patches/*.diff ; do
++  if [ -r "$patch" ]; then
++    cat $patch | patch -p1 --verbose --backup --suffix=.orig || exit 1
++  fi
++done
++for patch in $CWD/patches/*.patch.gz $CWD/patches/*.diff.gz ; do
++  if [ -r "$patch" ]; then
++    zcat $patch | patch -p1 --verbose --backup --suffix=.orig || exit 1
++  fi
++done
++
+ chown -R root:root .
+ find . \
+   \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
