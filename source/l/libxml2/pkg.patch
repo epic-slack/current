@@ -12,3 +12,11 @@ index 48a4545..c340fa0 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -100,7 +100,6 @@ meson setup \
+   --localstatedir=/var \
+   --buildtype=release \
+   -Dlegacy=enabled \
+-  -Dpython=enabled \
+   .. || exit 1
+   "${NINJA:=ninja}" $NUMJOBS || exit 1
+   DESTDIR=$PKG $NINJA install || exit 1

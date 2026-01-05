@@ -1,14 +1,19 @@
 diff --git a/dash.SlackBuild b/dash.SlackBuild
-index a99ed1a..16238c1 100644
+index 69bc1c2..df18cfd 100644
 --- a/dash.SlackBuild
 +++ b/dash.SlackBuild
-@@ -62,6 +62,9 @@ elif [ "$ARCH" = "x86_64" ]; then
- elif [ "$ARCH" = "armv7hl" ]; then
-   SLKCFLAGS="-O3 -march=armv7-a -mfpu=vfpv3-d16"
-   LIBDIRSUFFIX=""
+@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
 +elif [ "$ARCH" = "ia64" ]; then
 +  SLKCFLAGS="-O2 -fPIC"
 +  LIBDIRSUFFIX=""
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -147,4 +150,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
+ 
+ cd $PKG
+ /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
+-

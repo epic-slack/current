@@ -1,0 +1,65 @@
+diff --git a/47.patch-orig b/47.patch
+index 83a09e8..19aacc3 100644
+--- a/47.patch-orig
++++ b/47.patch
+@@ -17,15 +17,15 @@ Fixes bug #36.
+  1 file changed, 2 insertions(+)
+ 
+ diff --git a/itstool.in b/itstool.in
+-index c21ad4b..a948828 100755
++index eebd181..8f94111 100755
+ --- a/itstool.in
+ +++ b/itstool.in
+-@@ -1096,6 +1096,8 @@ class Document (object):
+-                         child.replaceNode(newnode)
++@@ -1021,6 +1021,8 @@ class Document (object):
++                         child.getparent().replace(child, newnode)
+                      else:
+                          repl = self.get_translated(ph_node, translations, strict=strict, lang=lang)
+ +                        if repl == ph_node:
+ +                            repl = repl.copyNode(1)
+-                         child.replaceNode(repl)
+-                 scan_node(child)
+-         try:
++                         repl.tail = child.tail
++                         child.getparent().replace(child, repl)
++         except:
+diff --git a/itstool.SlackBuild b/itstool.SlackBuild
+index 33f1799..c9cb4fc 100644
+--- a/itstool.SlackBuild
++++ b/itstool.SlackBuild
+@@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -74,11 +77,22 @@ find . \
+  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+  -exec chmod 644 {} \+
+ 
++# [PATCH] Fix insufficiently quoted regular expressions:
++cat $CWD/itstool-2.0.7-raw-string.patch | patch -p1 --verbose || exit 1
++
++# [PATCH] Switch from libxml2 to lxml
++# see https://github.com/itstool/itstool/pull/57/commits
++cat $CWD/patches/57/switch-from-libxml2-to-lxml--mod.patch | patch -p1 --verbose || exit 1
++cat $CWD/patches/57/fix-element-check.patch | patch -p1 --verbose || exit 1
++cat $CWD/patches/57/rewrite-remaining-call-to-addcontent.patch | patch -p1 --verbose || exit 1
++cat $CWD/patches/57/fix-extraction-of-namespaced-attributes-from-langpointer.patch | patch -p1 --verbose || exit 1
++cat $CWD/patches/57/handle-missing-placeholders-more-gracefully.patch | patch -p1 --verbose || exit 1
++
+ # [PATCH] Fix handling of untranslated nodes:
+ cat $CWD/47.patch | patch -p1 --verbose || exit 1
+ 
+-# [PATCH] Fix insufficiently quoted regular expressions:
+-cat $CWD/itstool-2.0.7-raw-string.patch | patch -p1 --verbose || exit 1
++# recreate configure, for the libxml2 to lxml change to take effect
++autoreconf --force --install --verbose .
+ 
+ # Configure:
+ PYTHON=/usr/bin/python3 \
