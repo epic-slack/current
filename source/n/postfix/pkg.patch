@@ -1,5 +1,5 @@
 diff --git a/postfix.SlackBuild b/postfix.SlackBuild
-index eff2470..87c8183 100644
+index 65cba54..c800135 100644
 --- a/postfix.SlackBuild
 +++ b/postfix.SlackBuild
 @@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,13 @@ index eff2470..87c8183 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -99,6 +102,9 @@ zcat $CWD/postfix.only.warn.regular.files.diff.gz | patch -p1 --verbose || exit
+ # Make the postfix startup message look more like the other boot notices:
+ zcat $CWD/postfix.script.starting.message.diff.gz | patch -p1 --verbose || exit 1
+ 
++# Enable builds on Linux v7.0
++zcat $CWD/enable-build-w-linux-v7.patch.gz | patch -p1 --verbose || exit 1
++
+ # Postfix does not use a ./configure script (no GNU autoconf)
+ #
+ # The AUXLIBS variable is for dynamic library linking, which as of this
