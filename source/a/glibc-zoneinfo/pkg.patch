@@ -12,8 +12,3 @@ index 3fbf15e..085fefe 100644
  else
    SLKCFLAGS="-DHAVE_SNPRINTF=1 -O2"
    LIBDIRSUFFIX=""
-@@ -141,4 +144,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
- 
- cd $PKG
- makepkg -l y -c n $TMP/glibc-zoneinfo-$ZONE_VERSIONS-noarch-$BUILD.txz
--

@@ -11,8 +11,3 @@ index 1db4b26..d71c087 100644
  else
    SLKCFLAGS="-O2"
  fi
-@@ -164,4 +166,3 @@ zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
- 
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/minicom-$VERSION-$ARCH-$BUILD.txz
--

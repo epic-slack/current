@@ -12,8 +12,3 @@ index 380f9e2..63b90a6 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -132,4 +135,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
- 
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
--

@@ -1,0 +1,32 @@
+diff --git a/nvi.SlackBuild b/nvi.SlackBuild
+index d835a86..2baa209 100644
+--- a/nvi.SlackBuild
++++ b/nvi.SlackBuild
+@@ -57,6 +57,9 @@ elif [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -86,8 +89,15 @@ find . \
+   \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+   -exec chmod 644 {} \+
+ 
+-for file in $CWD/patches/*.gz ; do
+-  zcat $file | patch -p1 || exit 1
++# taken from http://ftp.arm.slackware.com/slackwarearm/slackwareaarch64-current/source/a/nvi/nvi.SlackBuild
++# and replaced non-existing failpatch script with `exit 1`
++# This will apply the Debian patches in the series order, which might already solve the issue of one/some
++# of them not applying cleanly during a local build test.
++# Apply patches:
++# Use Debian's patchset:
++cat $CWD/patches/series | while read patch ; do
++  echo "*** Applying patch $patch"
++  cat $CWD/patches/$patch | patch -p1 --verbose || exit 1
+ done
+ 
+ # Configure, build, and install:
