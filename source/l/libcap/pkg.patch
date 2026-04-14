@@ -29,8 +29,3 @@ index d805c9d..78d2b5a 100644
  
  # Set the CFLAGS
  sed -i "s/^\(DEBUG =\).*/\1$SLKCFLAGS/" Make.Rules
-@@ -129,4 +133,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
- 
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
--
