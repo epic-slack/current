@@ -1,8 +1,8 @@
-diff --git a/patchelf.SlackBuild b/patchelf.SlackBuild
-index 7d71c8f..37ab7c0 100644
---- a/patchelf.SlackBuild
-+++ b/patchelf.SlackBuild
-@@ -53,6 +53,9 @@ if [ "$ARCH" = "i686" ]; then
+diff --git a/alsa-lib.SlackBuild b/alsa-lib.SlackBuild
+index cdbe0ef..c06f17c 100644
+--- a/alsa-lib.SlackBuild
++++ b/alsa-lib.SlackBuild
+@@ -47,6 +47,9 @@ if [ "$ARCH" = "i686" ]; then
  elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
    LIBDIRSUFFIX="64"

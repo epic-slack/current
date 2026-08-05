@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6468e29..28d65f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -41,7 +41,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
+   if (CYGWIN OR MINGW OR NOT "${CMAKE_TOOLCHAIN_FILE}" STREQUAL "")
+     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
+   else()
+-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
++    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)
+   endif()
+ endif()
+ 

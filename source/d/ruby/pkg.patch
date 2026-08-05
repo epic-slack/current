@@ -1,0 +1,36 @@
+diff --git a/ruby.SlackBuild b/ruby.SlackBuild
+index faf7166..4d251af 100644
+--- a/ruby.SlackBuild
++++ b/ruby.SlackBuild
+@@ -65,6 +65,13 @@ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   OPTFLAGS=-O2
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  OPTFLAGS=-O2
++  # NOTE: otherwise it defaults to __builtin_setjmp, which messes around
++  #       register states causing segfaults on ia64.
++  EXTRACONF="--with-setjmp-type=setjmp"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   OPTFLAGS=-O2
+@@ -81,6 +88,9 @@ rm -rf ruby-$VERSION
+ tar xvf $CWD/ruby-$VERSION.tar.?z || exit 1
+ cd ruby-$VERSION || exit 1
+ 
++# enable ia64 support
++patch -p1 < $CWD/ruby-4.0.3-enable-ia64.patch || exit 1
++
+ chown -R root:root .
+ find . \
+  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+@@ -103,6 +113,7 @@ optflags=$OPTFLAGS \
+   --enable-pthread \
+   --disable-install-capi \
+   --disable-rpath \
++  $EXTRACONF \
+   --build=$ARCH-slackware-linux || exit 1
+ 
+ make $NUMJOBS || make || exit 1
