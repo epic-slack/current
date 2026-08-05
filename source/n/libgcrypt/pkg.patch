@@ -19,8 +19,3 @@ index 54d94c9..5f900f9 100644
  mkdir -p $TMP $PKG
  cd $TMP
  rm -rf $PKGNAM-$VERSION
-@@ -132,4 +135,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
- 
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/$PKGNAM-$VERSION-$ARCH-$BUILD.txz
--

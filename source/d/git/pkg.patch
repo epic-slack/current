@@ -1,5 +1,5 @@
 diff --git a/git.SlackBuild b/git.SlackBuild
-index 3ab2146..806f717 100644
+index ef14e05..539ee40 100644
 --- a/git.SlackBuild
 +++ b/git.SlackBuild
 @@ -64,6 +64,8 @@ elif [ "$ARCH" = "i686" ]; then
@@ -11,3 +11,27 @@ index 3ab2146..806f717 100644
  else
    SLKCFLAGS="-O2"
  fi
+@@ -106,6 +108,7 @@ make $NUMJOBS \
+   INSTALLDIRS=vendor \
+   ASCIIDOC8=YesPlease \
+   USE_LIBPCRE2=YesPlease \
++  NO_RUST=YesPlease \
+   all doc || exit 1
+ 
+ make \
+@@ -115,6 +118,7 @@ make \
+   INSTALLDIRS=vendor \
+   ASCIIDOC8=YesPlease \
+   USE_LIBPCRE2=YesPlease \
++  NO_RUST=YesPlease \
+   install \
+   install-doc \
+   DESTDIR=$PKG || exit 1
+@@ -127,6 +131,7 @@ make -C contrib/subtree \
+   INSTALLDIRS=vendor \
+   ASCIIDOC8=YesPlease \
+   USE_LIBPCRE2=YesPlease \
++  NO_RUST=YesPlease \
+   install \
+   install-doc \
+   DESTDIR=$PKG || exit 1

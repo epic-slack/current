@@ -1,0 +1,36 @@
+diff --git a/nethack.SlackBuild b/nethack.SlackBuild
+index 2efc52b..18d41be 100644
+--- a/nethack.SlackBuild
++++ b/nethack.SlackBuild
+@@ -56,6 +56,9 @@ if [ "$ARCH" = "i686" ]; then
+ elif [ "$ARCH" = "x86_64" ]; then
+   SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
+   LIBDIRSUFFIX="64"
++elif [ "$ARCH" = "ia64" ]; then
++  SLKCFLAGS="-O2 -fPIC"
++  LIBDIRSUFFIX=""
+ else
+   SLKCFLAGS="-O2"
+   LIBDIRSUFFIX=""
+@@ -128,8 +131,8 @@ mkdir -p $PKG/var/lib
+ ## Uncomment ONE pair of the following make commands, depending on which windowing system you would like to support.
+ 
+ # To build a binary with tty + curses + X11 support, you can use the following build command:
+-make $NUMJOBS PREFIX=/usr HACKDIR=/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_WIN_CURSES=1 WANT_WIN_X11=1
+-make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_WIN_CURSES=1 WANT_WIN_X11=1 install
++#make $NUMJOBS PREFIX=/usr HACKDIR=/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_WIN_CURSES=1 WANT_WIN_X11=1
++#make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_WIN_CURSES=1 WANT_WIN_X11=1 install
+ 
+ # To build with tty + curses + QT support, use the following command:
+ #make $NUMJOBS PREFIX=/usr HACKDIR=/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_WIN_CURSES=1 WANT_WIN_QT=1
+@@ -140,8 +143,8 @@ make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM WANT_WIN_TTY=1 WANT_W
+ #make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM WANT_WIN_ALL=1 install
+ 
+ # Build a binary with tty only:
+-#make $NUMJOBS PREFIX=/usr HACKDIR=/var/lib/$PKGNAM
+-#make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM install
++make $NUMJOBS PREFIX=/usr HACKDIR=/var/lib/$PKGNAM
++make $NUMJOBS PREFIX=$PKG/usr HACKDIR=$PKG/var/lib/$PKGNAM install
+ 
+ # Install manpages:
+ ( cd doc

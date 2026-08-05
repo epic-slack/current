@@ -11,8 +11,3 @@ index 4f510ce..379f82b 100644
  else
    SLKCFLAGS="-O2"
  fi
-@@ -115,4 +117,3 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
- # Build the package:
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/rsync-$VERSION-$ARCH-$BUILD.txz
--

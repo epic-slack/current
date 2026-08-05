@@ -1,0 +1,15 @@
+diff --git a/infozip.SlackBuild b/infozip.SlackBuild
+index 460487e..9ac1a03 100644
+--- a/infozip.SlackBuild
++++ b/infozip.SlackBuild
+@@ -123,6 +123,10 @@ cat $CWD/unzip-patches/unzip.gnu89.diff | patch -p1 --verbose || exit 1
+ cat $CWD/unzip-patches/28-cve-2022-0529-and-cve-2022-0530.patch | patch -p1 --verbose || exit 1
+ cat $CWD/unzip-patches/unzip-6.0_CVE-2021-4217.patch | patch -p1 --verbose || exit 1
+ 
++if [ "$ARCH" = "ia64" ]; then
++  cat $CWD/ia64-build-w-o2.patch | patch -p1 --verbose || exit 1
++fi
++
+ chown -R root:root .
+ mkdir -p $PKG/usr/doc/unzip-$VERSION
+ cp -a BUGS COPYING* Contents History.* INSTALL LICENSE README ToDo WHERE \

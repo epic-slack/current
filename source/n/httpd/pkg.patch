@@ -12,8 +12,3 @@ index ccd121e..3676b13 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -266,4 +269,3 @@ fi
- 
- cd $PKG
- /sbin/makepkg -l y -c n $TMP/${PKGNAM}-$VERSION-$ARCH-$BUILD.txz
--

@@ -1,5 +1,5 @@
 diff --git a/openssh.SlackBuild b/openssh.SlackBuild
-index 9a53a60..a4dbd00 100644
+index af90e7c..ef8ffcf 100644
 --- a/openssh.SlackBuild
 +++ b/openssh.SlackBuild
 @@ -58,6 +58,9 @@ if [ "$ARCH" = "i686" ]; then
@@ -12,3 +12,11 @@ index 9a53a60..a4dbd00 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
+@@ -97,7 +100,6 @@ CFLAGS="$SLKCFLAGS" \
+   --with-default-path=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin \
+   --with-privsep-path=/var/empty \
+   --with-privsep-user=sshd \
+-  --with-security-key-builtin \
+   --build=$ARCH-slackware-linux || exit 1
+ 
+ make $NUMJOBS || make || exit 1

@@ -1,0 +1,19 @@
+diff --git a/storage/connect/CMakeLists.txt b/storage/connect/CMakeLists.txt
+index fe42698..641844a 100644
+--- a/storage/connect/CMakeLists.txt
++++ b/storage/connect/CMakeLists.txt
+@@ -317,10 +317,10 @@ IF(CONNECT_WITH_ZIP)
+   SET(CONNECT_SOURCES ${CONNECT_SOURCES} ${MINIZIP_SOURCES} filamzip.cpp
+     tabzip.cpp filamzip.h tabzip.h)
+   add_definitions(-DZIP_SUPPORT -DNOCRYPT)
+-  SET_SOURCE_FILES_PROPERTIES(${MINIZIP_SOURCES} PROPERTIES COMPILE_FLAGS "\
+-    $<${have_C__Wmissing_declarations}:-Wno-missing-declarations> \
+-    $<${have_C__Wdeclaration_after_statement}:-Wno-declaration-after-statement> \
+-  ")
++#  SET_SOURCE_FILES_PROPERTIES(${MINIZIP_SOURCES} PROPERTIES COMPILE_FLAGS "\
++#    $<${have_C__Wmissing_declarations}:-Wno-missing-declarations> \
++#    $<${have_C__Wdeclaration_after_statement}:-Wno-declaration-after-statement> \
++#  ")
+ ENDIF(CONNECT_WITH_ZIP)
+ ADD_FEATURE_INFO(CONNECT_ZIP CONNECT_WITH_ZIP "Support for ZIP in the CONNECT storage engine")
+ 

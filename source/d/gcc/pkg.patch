@@ -1,6 +1,6 @@
-diff --git a/gcc.SlackBuild.orig b/gcc.SlackBuild
-index 88468e0..8aa81ff 100644
---- a/gcc.SlackBuild.orig
+diff --git a/gcc.SlackBuild b/gcc.SlackBuild
+index 81a3cfc..5705a73 100644
+--- a/gcc.SlackBuild
 +++ b/gcc.SlackBuild
 @@ -69,7 +69,7 @@ BUILD=${BUILD:-1}
  
@@ -20,24 +20,7 @@ index 88468e0..8aa81ff 100644
  else
    MULTILIB=${MULTILIB:-"--enable-multilib"}
  fi
-@@ -111,16 +113,7 @@ fi
- if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
-   echo "gcc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
-   echo "gcc-g++-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  if echo $LANGS | grep -q cobol ; then
--    echo "gcc-gcobol-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  fi
-   echo "gcc-gfortran-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-gnat-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-objc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-go-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-gdc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-gm2-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
--  echo "gcc-rust-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz"
-   exit 0
- fi
- 
-@@ -132,6 +125,10 @@ elif [ "$ARCH" = "x86_64" ]; then
+@@ -132,6 +134,10 @@ elif [ "$ARCH" = "x86_64" ]; then
    SLKCFLAGS="-O2 -march=x86-64 -mtune=generic -fPIC"
    LIBDIRSUFFIX="64"
    LIB_ARCH=amd64
@@ -48,17 +31,8 @@ index 88468e0..8aa81ff 100644
  else
    SLKCFLAGS="-O2"
    LIBDIRSUFFIX=""
-@@ -157,30 +154,16 @@ PKG1=$TMP/package-gcc
- # These are the directories to build other packages in:
- PKG2=$TMP/package-gcc-g++
- PKG3=$TMP/package-gcc-gfortran
--PKG4=$TMP/package-gcc-gnat
--PKG6=$TMP/package-gcc-objc
--PKG8=$TMP/package-gcc-go
--PKG10=$TMP/package-gcc-gdc
--PKG11=$TMP/package-gcc-gm2
--PKG12=$TMP/package-gcc-rust
--PKG13=$TMP/package-gcc-gcobol
+@@ -166,21 +172,14 @@ PKG12=$TMP/package-gcc-rust
+ PKG13=$TMP/package-gcc-gcobol
  
  # Clear the build locations:
 -rm -rf $PKG{1,2,3,4,6,8,10,11,12,13}
@@ -82,7 +56,7 @@ index 88468e0..8aa81ff 100644
  
  cd gcc-$SRCVER || exit 1
  
-@@ -239,90 +222,6 @@ mkdir -p $PKG3/usr/doc/gcc-${VERSION}/gcc/fortran
+@@ -244,93 +243,6 @@ mkdir -p $PKG3/usr/doc/gcc-${VERSION}/gcc/fortran
    fi
  )
  
@@ -121,18 +95,21 @@ index 88468e0..8aa81ff 100644
 -
 -mkdir -p $PKG8/usr/doc/gcc-${VERSION}/gcc/go
 -( cd gcc/go || exit 0
--  if [ -r ChangeLog ]; then
--    cat ChangeLog | head -n 1000 > $PKG8/usr/doc/gcc-${VERSION}/gcc/go/ChangeLog
--    touch -r ChangeLog $PKG8/usr/doc/gcc-${VERSION}/gcc/go/ChangeLog
--  fi
 -  cp -a \
 -    README* THREADS* \
 -    gofrontend/{LICENSE,PATENTS,README} \
 -  $PKG8/usr/doc/gcc-${VERSION}/gcc/go
+-  if [ -r ChangeLog ]; then
+-    cat ChangeLog | head -n 1000 > $PKG8/usr/doc/gcc-${VERSION}/gcc/go/ChangeLog
+-    touch -r ChangeLog $PKG8/usr/doc/gcc-${VERSION}/gcc/go/ChangeLog
+-  fi
 -)
 -
 -mkdir -p $PKG10/usr/doc/gcc-${VERSION}/gcc/d
 -( cd gcc/d || exit 0
+-  cp -a \
+-    README* \
+-  $PKG10/usr/doc/gcc-${VERSION}/gcc/d
 -  if [ -r ChangeLog ]; then
 -    cat ChangeLog | head -n 1000 > $PKG10/usr/doc/gcc-${VERSION}/gcc/d/ChangeLog
 -    touch -r ChangeLog $PKG10/usr/doc/gcc-${VERSION}/gcc/d/ChangeLog
@@ -141,25 +118,25 @@ index 88468e0..8aa81ff 100644
 -
 -mkdir -p $PKG11/usr/doc/gcc-${VERSION}/gcc/m2
 -( cd gcc/m2 || exit 0
+-  cp -a \
+-    COPYING* NEWS* README* \
+-  $PKG11/usr/doc/gcc-${VERSION}/gcc/m2
 -  if [ -r ChangeLog ]; then
 -    cat ChangeLog | head -n 1000 > $PKG11/usr/doc/gcc-${VERSION}/gcc/m2/ChangeLog
 -    touch -r ChangeLog $PKG11/usr/doc/gcc-${VERSION}/gcc/m2/ChangeLog
 -  fi
--  cp -a \
--    COPYING* NEWS* README* \
--  $PKG11/usr/doc/gcc-${VERSION}/gcc/m2
 -)
 -
 -mkdir -p $PKG12/usr/doc/gcc-${VERSION}/gcc/rust
 -( cd gcc/rust || exit 0
--  if [ -r ChangeLog ]; then
--    cat ChangeLog | head -n 1000 > $PKG12/usr/doc/gcc-${VERSION}/gcc/rust/ChangeLog
--    touch -r ChangeLog $PKG12/usr/doc/gcc-${VERSION}/gcc/rust/ChangeLog
--  fi
 -  cp -a \
 -    CONTRIBUTING* \
 -    COPYING* NEWS* README* \
 -  $PKG12/usr/doc/gcc-${VERSION}/gcc/rust
+-  if [ -r ChangeLog ]; then
+-    cat ChangeLog | head -n 1000 > $PKG12/usr/doc/gcc-${VERSION}/gcc/rust/ChangeLog
+-    touch -r ChangeLog $PKG12/usr/doc/gcc-${VERSION}/gcc/rust/ChangeLog
+-  fi
 -)
 -
 -mkdir -p $PKG13/usr/doc/gcc-${VERSION}/gcc/cobol
@@ -173,7 +150,7 @@ index 88468e0..8aa81ff 100644
  mkdir -p $PKG3/usr/doc/gcc-${VERSION}/libgfortran
  ( cd libgfortran || exit 0
    if [ -r ChangeLog ]; then
-@@ -331,14 +230,6 @@ mkdir -p $PKG3/usr/doc/gcc-${VERSION}/libgfortran
+@@ -339,14 +251,6 @@ mkdir -p $PKG3/usr/doc/gcc-${VERSION}/libgfortran
    fi
  )
  
@@ -188,11 +165,10 @@ index 88468e0..8aa81ff 100644
  mkdir -p $PKG1/usr/doc/gcc-${VERSION}/libgomp
  ( cd libgomp || exit 0
    if [ -r ChangeLog ]; then
-@@ -346,18 +237,7 @@ mkdir -p $PKG1/usr/doc/gcc-${VERSION}/libgomp
-     touch -r ChangeLog $PKG1/usr/doc/gcc-${VERSION}/libgomp/ChangeLog
+@@ -355,17 +259,6 @@ mkdir -p $PKG1/usr/doc/gcc-${VERSION}/libgomp
    fi
  )
--  
+   
 -mkdir -p $PKG6/usr/doc/gcc-${VERSION}/libobjc
 -( cd libobjc || exit 0
 -  if [ -r ChangeLog ]; then
@@ -204,11 +180,10 @@ index 88468e0..8aa81ff 100644
 -  $PKG6/usr/doc/gcc-${VERSION}/libobjc
 -)
 -    
-+
  mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
  ( cd libstdc++-v3 || exit 0
    cp -a \
-@@ -376,10 +256,12 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
+@@ -384,6 +277,8 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
  
    if [ "$ARCH" = "x86_64" ]; then
      GCC_ARCHOPTS="--with-arch=x86-64"
@@ -217,12 +192,7 @@ index 88468e0..8aa81ff 100644
    else
      GCC_ARCHOPTS="--with-arch=$ARCH"
    fi
-- 
-+
-   CFLAGS="$SLKCFLAGS" \
-   CXXFLAGS="$SLKCFLAGS" \
-   ../configure --prefix=/usr \
-@@ -401,7 +283,7 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
+@@ -409,7 +304,7 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
       --enable-gnu-indirect-function \
       --enable-gnu-unique-object \
       --enable-plugin \
@@ -231,7 +201,7 @@ index 88468e0..8aa81ff 100644
       --disable-install-libiberty \
       --disable-werror \
       --with-gnu-ld \
-@@ -421,15 +303,6 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
+@@ -429,15 +324,6 @@ mkdir -p $PKG2/usr/doc/gcc-${VERSION}/libstdc++-v3
    # Include all debugging info (for now):
    make $NUMJOBS bootstrap || exit 1
  
@@ -247,7 +217,7 @@ index 88468e0..8aa81ff 100644
    make info || exit 1
  
    # Set GCCCHECK=something to run the tests
-@@ -596,174 +469,6 @@ fi
+@@ -604,174 +490,6 @@ fi
    fi
  )
  
@@ -421,26 +391,26 @@ index 88468e0..8aa81ff 100644
 -
  # Generate packages:
  ( cd $PKG1
-   makepkg -l y -c n $TMP/gcc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
-@@ -771,22 +476,6 @@ fi
-   makepkg -l y -c n $TMP/gcc-g++-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+   /sbin/makepkg -l y -c n $TMP/gcc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+@@ -779,22 +497,6 @@ fi
+   /sbin/makepkg -l y -c n $TMP/gcc-g++-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
  ( cd $PKG3
-   makepkg -l y -c n $TMP/gcc-gfortran-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+   /sbin/makepkg -l y -c n $TMP/gcc-gfortran-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG4
--  makepkg -l y -c n $TMP/gcc-gnat-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-gnat-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG6
--  makepkg -l y -c n $TMP/gcc-objc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-objc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG8
--  makepkg -l y -c n $TMP/gcc-go-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-go-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG10
--  makepkg -l y -c n $TMP/gcc-gdc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-gdc-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG11
--  makepkg -l y -c n $TMP/gcc-gm2-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-gm2-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -( cd $PKG12
--  makepkg -l y -c n $TMP/gcc-rust-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-  /sbin/makepkg -l y -c n $TMP/gcc-rust-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -if echo $LANGS | grep -q cobol ; then
 -  ( cd $PKG13
--    makepkg -l y -c n $TMP/gcc-gcobol-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
+-    /sbin/makepkg -l y -c n $TMP/gcc-gcobol-${VERSION}${VERTAG}-$ARCH-${BUILD}${TAG}.txz )
 -fi
  
  echo
