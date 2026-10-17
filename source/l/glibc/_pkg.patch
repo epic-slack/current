@@ -1,0 +1,89 @@
+diff --git a/glibc.SlackBuild b/glibc.SlackBuild
+index ba2a7c3..2e91815 100644
+--- a/glibc.SlackBuild
++++ b/glibc.SlackBuild
+@@ -99,6 +99,9 @@ fi
+ X86FLAGS32="-O3 -march=pentium4 -mtune=generic -mstackrealign -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer"
+ X86FLAGS64="-O3 -march=x86-64 -mtune=generic -fPIC"
+ 
++# Enable multi-arch by default as before...
++MULTIARCH="--enable-multi-arch"
++
+ # I'll break this out as an option for fun  :-)
+ case $ARCH  in
+   i686)
+@@ -112,6 +115,14 @@ case $ARCH  in
+     TARGET=${TARGET:-x86_64}
+     TARGET32=${TARGET32:-i686}
+     ;;
++  ia64)
++    OPTIMIZ="-O2 -fPIC"
++    LIBDIRSUFFIX=""
++    TARGET=${TARGET:-ia64}
++    WERROR="--disable-werror"
++    # ...but disable it for ia64
++    MULTIARCH=""
++    ;;
+   *)
+     OPTIMIZ="-O3"
+     LIBDIRSUFFIX=""
+@@ -136,26 +147,30 @@ mkdir -p $TMP
+ # This function fixes a doinst.sh file for x86_64.
+ # With thanks to Fred Emmott.
+ fix_doinst() {
+-  if [ "$LIBDIRSUFFIX" = "" ]; then
+-    return;
+-  fi;
+-  if [ "$MULTILIB" = "--enable-multilib" ]; then
+-    # Save a copy of this to append the 32-bit links later.
+-    cp -a install/doinst.sh install/doinst32.sh
+-  fi
+-  # Fix "( cd usr/lib ;" occurrences
+-  sed -i "s#lib ;#lib${LIBDIRSUFFIX} ;#" install/doinst.sh
+-  # Fix "lib/" occurrences
+-  sed -i "s#lib/#lib${LIBDIRSUFFIX}/#g" install/doinst.sh
+-  # Fix "( cd lib" occurrences
+-  sed -i "s#( cd lib\$#( cd lib${LIBDIRSUFFIX}#" install/doinst.sh
+-  if [ "$SLACKWARE_ARCH" = "x86_64" ]; then
+-    sed -i 's#ld-linux#ld-linux-x86-64#g' install/doinst.sh
+-  fi
+-  if [ "$MULTILIB" = "--enable-multilib" ]; then
+-    echo "# Add 32-bit library links for multilib:"  >> install/doinst.sh
+-    cat install/doinst32.sh | grep -e '^( cd lib ' -e '^( cd usr/lib ' >> install/doinst.sh
+-    rm -f install/doinst32.sh
++  if [ "$SLACKWARE_ARCH" = "ia64" ]; then
++    sed -i 's#ld-linux#ld-linux-ia64#g' install/doinst.sh
++  else
++    if [ "$LIBDIRSUFFIX" = "" ]; then
++      return;
++    fi;
++    if [ "$MULTILIB" = "--enable-multilib" ]; then
++      # Save a copy of this to append the 32-bit links later.
++      cp -a install/doinst.sh install/doinst32.sh
++    fi
++    # Fix "( cd usr/lib ;" occurrences
++    sed -i "s#lib ;#lib${LIBDIRSUFFIX} ;#" install/doinst.sh
++    # Fix "lib/" occurrences
++    sed -i "s#lib/#lib${LIBDIRSUFFIX}/#g" install/doinst.sh
++    # Fix "( cd lib" occurrences
++    sed -i "s#( cd lib\$#( cd lib${LIBDIRSUFFIX}#" install/doinst.sh
++    if [ "$SLACKWARE_ARCH" = "x86_64" ]; then
++      sed -i 's#ld-linux#ld-linux-x86-64#g' install/doinst.sh
++    fi
++    if [ "$MULTILIB" = "--enable-multilib" ]; then
++      echo "# Add 32-bit library links for multilib:"  >> install/doinst.sh
++      cat install/doinst32.sh | grep -e '^( cd lib ' -e '^( cd usr/lib ' >> install/doinst.sh
++      rm -f install/doinst32.sh
++    fi
+   fi
+ }
+ 
+@@ -246,7 +261,7 @@ build_glibc() {
+     --enable-kernel=4.4 \
+     --with-headers=/usr/include \
+     --enable-add-ons \
+-    --enable-multi-arch \
++    $MULTIARCH \
+     --enable-profile \
+     $DISABLE_NSCD \
+     $WERROR \
