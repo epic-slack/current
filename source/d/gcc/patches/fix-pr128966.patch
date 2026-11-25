@@ -1,0 +1,127 @@
+From 4ce77e7b92f32a42368ba7e979834c4d59619ded Mon Sep 17 00:00:00 2001
+From: Matt Turner <mattst88@gmail.com>
+Date: Mon, 23 Nov 2026 16:49:09 -0500
+Subject: [PATCH] ia64: Disallow RFmode mode changes in FR registers [PR128966]
+
+ia64 caller-saves FR registers in RFmode, so LRA restores a value
+with ldf.fill into (reg:RF fN) while later instructions use
+(reg:XF fN), (reg:DF fN) or (reg:SF fN).  late-combine can propagate
+the restore into such a use: REG_CAN_CHANGE_MODE_P says the mode change
+is valid, and simplify_subreg then turns (subreg:DF (mem:RF slot)) into
+(mem:DF slot).  The slot holds the 82-bit register image written by
+stf.spill, but ldfd, ldfs and ldfe read the memory format, so the value
+is corrupted.
+
+A change between RFmode and another mode in an FR register is not a
+bitcast, because the two modes have different memory representations.
+Reject it, as ia64_can_change_mode_class already does for changes
+between FP and integer modes.  LRA still caller-saves FP values with
+stf.spill and ldf.fill.  Across gcc.target/ia64 and gcc.c-torture at -O2
+and -Os, the only other code change is an extra pair of FR moves in
+gcc.c-torture/compile/20030904-1.c, where cprop_hardreg can no longer
+reuse an RFmode division result as DFmode.
+
+This also fixes gcc.dg/torture/builtin-complex-1.c at -Os.
+
+	PR target/128966
+
+gcc/ChangeLog:
+
+	* config/ia64/ia64.cc (ia64_can_change_mode_class): Reject mode
+	changes between RFmode and other modes in FR registers.
+
+gcc/testsuite/ChangeLog:
+
+	* gcc.target/ia64/pr128966.c: New test.
+---
+ gcc/config/ia64/ia64.cc                  |  8 +++-
+ gcc/testsuite/gcc.target/ia64/pr128966.c | 51 ++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+), 2 deletions(-)
+ create mode 100644 gcc/testsuite/gcc.target/ia64/pr128966.c
+
+diff --git ./gcc/config/ia64/ia64.cc ./gcc/config/ia64/ia64.cc
+index cba2b4ec6cd..fd6fa1e9829 100644
+--- ./gcc/config/ia64/ia64.cc
++++ ./gcc/config/ia64/ia64.cc
+@@ -11998,7 +11998,10 @@ ia64_expand_vec_perm_even_odd (rtx target, rtx op0, rtx op1, int odd)
+ 
+    In BR regs, we can't change the DImode at all.
+    In FP regs, we can't change FP values to integer values and vice versa,
+-   but we can change e.g. DImode to SImode, and V2SFmode into DImode.  */
++   but we can change e.g. DImode to SImode, and V2SFmode into DImode.
++   Nor can we change between RFmode and any other mode: RFmode is stored
++   with stf.spill in the register format, the other FP modes in the
++   memory format.  */
+ 
+ static bool
+ ia64_can_change_mode_class (machine_mode from, machine_mode to,
+@@ -12006,7 +12009,8 @@ ia64_can_change_mode_class (machine_mode from, machine_mode to,
+ {
+   if (reg_classes_intersect_p (rclass, BR_REGS))
+     return from == to;
+-  if (SCALAR_FLOAT_MODE_P (from) != SCALAR_FLOAT_MODE_P (to))
++  if (SCALAR_FLOAT_MODE_P (from) != SCALAR_FLOAT_MODE_P (to)
++      || (from == RFmode) != (to == RFmode))
+     return !reg_classes_intersect_p (rclass, FR_REGS);
+   return true;
+ }
+diff --git ./gcc/testsuite/gcc.target/ia64/pr128966.c ./gcc/testsuite/gcc.target/ia64/pr128966.c
+new file mode 100644
+index 00000000000..9a04b172573
+--- /dev/null
++++ ./gcc/testsuite/gcc.target/ia64/pr128966.c
+@@ -0,0 +1,51 @@
++/* PR target/128966 */
++/* { dg-do run } */
++/* Leave no callee-saved FR free, so that values live across a call are
++   caller-saved in RFmode with stf.spill and ldf.fill.  */
++/* { dg-options "-O2 -ffixed-f2 -ffixed-f3 -ffixed-f4 -ffixed-f5 -ffixed-f16 -ffixed-f17 -ffixed-f18 -ffixed-f19 -ffixed-f20 -ffixed-f21 -ffixed-f22 -ffixed-f23 -ffixed-f24 -ffixed-f25 -ffixed-f26 -ffixed-f27 -ffixed-f28 -ffixed-f29 -ffixed-f30 -ffixed-f31" } */
++
++/* The restore of W after the call to NAME##_sink must not be folded into
++   the copy to the argument register as an XF, DF or SF load: the slot
++   holds the stf.spill register image.  */
++
++#define TEST(T, NAME)						\
++  __attribute__((noipa)) void NAME##_sink (T x) { }		\
++  __attribute__((noipa)) void					\
++  NAME##_check (T x)						\
++  {								\
++    if (x != 3)							\
++      __builtin_abort ();					\
++  }								\
++  __attribute__((noipa)) T					\
++  NAME (T *a, int n, T w)					\
++  {								\
++    T s = 0;							\
++    for (int i = 0; i < n; i++)					\
++      {								\
++	s += a[i] * w;						\
++	if (__builtin_expect (a[i] == 0, 0))			\
++	  {							\
++	    NAME##_sink (s);					\
++	    NAME##_check (w);					\
++	  }							\
++	s = s * w;						\
++      }								\
++    return s;							\
++  }
++
++TEST (long double, tl)
++TEST (double, td)
++TEST (float, tf)
++
++int
++main (void)
++{
++  long double al[2] = { 1, 0 };
++  double ad[2] = { 1, 0 };
++  float af[2] = { 1, 0 };
++
++  tl (al, 2, 3);
++  td (ad, 2, 3);
++  tf (af, 2, 3);
++  return 0;
++}
+-- 
+2.56.1
+

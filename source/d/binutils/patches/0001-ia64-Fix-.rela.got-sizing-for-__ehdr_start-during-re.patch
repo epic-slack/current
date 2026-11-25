@@ -1,0 +1,68 @@
+From a7810ad13f6398a6f2352832335ddcdc500faad1 Mon Sep 17 00:00:00 2001
+From: Frank Scheiner <frank.scheiner@web.de>
+Date: Wed, 11 Nov 2026 16:29:32 +0100
+Subject: [PATCH] ia64: Fix .rela.got sizing for __ehdr_start during relaxation
+
+When linking a shared object that references the linker-defined symbol
+__ehdr_start (such as musl libc's dynamic linker), the IA-64 backend
+can trigger a BFD_ASSERT failure in elfNN_ia64_install_dyn_reloc()
+due to an undersized .rela.got section.
+
+  /usr/bin/ld.bfd: BFD version 2.46-slack151 assertion fail elfnn-ia64.c:3238
+
+The root cause is a mismatch between the symbol state seen by different
+sizing passes. The generic ELF linker (ld/ldelf.c) temporarily forces
+__ehdr_start to bfd_link_hash_defined during size_dynamic_sections (and
+thus elfNN_ia64_late_size_sections), then restores it to its original
+type (typically bfd_link_hash_undefweak) afterward.
+
+However, the IA-64 backend's elfNN_ia64_relax_section() contains a
+resize path that zeroes srelgot->size and recomputes it by invoking
+allocate_dynrel_entries(). This resize pass runs after the generic
+linker has restored __ehdr_start to undefweak. Because
+allocate_dynrel_entries() computes resolved_zero for undefweak symbols,
+it omits the .rela.got slot for __ehdr_start.
+
+Later, during the relocation emission phase, set_got_entry() still
+emits the dynamic relocation for __ehdr_start (since it genuinely
+requires a GOT entry to hold the ELF header address). This writes past
+the end of the undersized .rela.got buffer, triggering the assertion:
+
+  BFD_ASSERT (sizeof (ElfNN_External_Rela) * srel->reloc_count <= srel->size);
+
+Fix this by excluding __ehdr_start (identified via
+elf_hash_table(info)->hehdr_start) from the resolved_zero optimization
+in allocate_dynrel_entries(). This ensures its GOT relocation slot is
+consistently allocated regardless of which sizing pass is evaluating it.
+
+Tested by building musl libc (which combines libc and the dynamic
+linker into a single shared object) for ia64-unknown-linux-gnu, which
+previously failed with the above assertion.
+
+bfd/
+	* elfnn-ia64.c (allocate_dynrel_entries): Exclude __ehdr_start
+	from the resolved_zero optimization.
+
+Assisted-by: Qwen:Qwen3.8-Max
+Signed-off-by: Frank Scheiner <frank.scheiner@web.de>
+---
+ bfd/elfnn-ia64.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/bfd/elfnn-ia64.c b/bfd/elfnn-ia64.c
+index 86643b4945a..8f9d4859fb8 100644
+--- a/bfd/elfnn-ia64.c
++++ b/bfd/elfnn-ia64.c
+@@ -2855,7 +2855,8 @@ allocate_dynrel_entries (struct elfNN_ia64_dyn_sym_info *dyn_i,
+   shared = bfd_link_pic (x->info);
+   resolved_zero = (dyn_i->h
+ 		   && ELF_ST_VISIBILITY (dyn_i->h->other)
+-		   && dyn_i->h->root.type == bfd_link_hash_undefweak);
++		   && dyn_i->h->root.type == bfd_link_hash_undefweak
++		   && dyn_i->h != elf_hash_table (x->info)->hehdr_start);
+ 
+   /* Take care of the GOT and PLT relocations.  */
+ 
+-- 
+2.34.1
+
